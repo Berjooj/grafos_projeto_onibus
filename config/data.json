@@ -1,0 +1,84 @@
+{
+	"onibus": [
+		{
+			"nome": "T10",
+			"lotacaoMaxima": 40,
+			"lotacaoAtual": 0,
+			"capacidadeCombustivel": 350.0,
+			"autonomia": 2300.0
+		},
+		{
+			"nome": "B56",
+			"lotacaoMaxima": 35,
+			"lotacaoAtual": 0,
+			"capacidadeCombustivel": 320.0,
+			"autonomia": 2100.0
+		},
+		{
+			"nome": "B55",
+			"lotacaoMaxima": 35,
+			"lotacaoAtual": 0,
+			"capacidadeCombustivel": 320.0,
+			"autonomia": 2100.0
+		}
+	],
+	"rotas": [
+		{
+			"nome": "Protasio Alves",
+			"distancia": 15.5,
+			"tempoPercurso": 30
+		},
+		{
+			"nome": "Manuel Elias",
+			"distancia": 25.0,
+			"tempoPercurso": 45
+		},
+		{
+			"nome": "Assis Brasil",
+			"distancia": 25.0,
+			"tempoPercurso": 45
+		}
+	],
+	"pontos": [
+		{
+			"endereco": "Rua A, 123",
+			"eGaragem": false,
+			"lat": -23.55052,
+			"lng": -46.63331
+		},
+		{
+			"endereco": "Avenida B, 456",
+			"eGaragem": false,
+			"lat": -23.55678,
+			"lng": -46.63432
+		},
+		{
+			"endereco": "Avenida C, 789",
+			"eGaragem": true,
+			"lat": -23.55678,
+			"lng": -46.63432
+		}
+	],
+	"percurso": [
+		{
+			"nome": "Percurso T10",
+			"rotas": [
+				{
+					"origem": "Rua A, 123",
+					"destino": "Avenida B, 456",
+					"rota": "Assis Brasil"
+				},
+				{
+					"origem": "Avenida B, 456",
+					"destino": "Rua A, 123",
+					"rota": "Manuel Elias"
+				},
+				{
+					"origem": "Rua A, 123",
+					"destino": "Avenida C, 789",
+					"rota": "Protasio Alves"
+				}
+			]
+		}
+	]
+}

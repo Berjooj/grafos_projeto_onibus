@@ -1,31 +1,33 @@
 #include <stdio.h>
+#include <stdlib.h>
+
 #include "./modules/functions.c"
 
-int main()
-{
-    do
-    {
-        printf("Digite o numero de pontos: ");
-        scanf("%d", &numPontos);
-        while (getchar() != '\n')
-            ;
+int main() {
+	do {
+		printf("Digite o numero de pontos: ");
+		scanf("%d", &MAX_SIZE);
+		while (getchar() != '\n');
 
-        if (numPontos > 0)
-        {
-            break;
-        }
-        else
-        {
-            printf("Digite um valor valido!\n");
-        }
-    } while (1);
+		if (MAX_SIZE > 0) {
+			break;
+		} else {
+			printf("Digite um valor valido!\n");
+		}
+	} while (1);
 
-    initPontos();
-    initMatrizDeRotas();
-    menu();
+	init(1);
 
-    freePontos();
-    freeMatrizDeRotas();
+	// menu();
 
-    return 0;
+	// freePontos();
+	// freeMatrizDeRotas();
+
+	listarPontos();
+
+	exibirMatriz(0);
+
+	printf("\n\nPrecione qualquer tecla para sair...\n");
+	getchar();
+	return 0;
 }
