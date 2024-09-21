@@ -3,13 +3,6 @@
 		"*.tpl": "html",
 		"*.csv": "csv",
 		"stdio.h": "c",
-		"stdlib.h": "c",
-		"types.h": "c",
-		"stdbool.h": "c",
-		"string.h": "c",
-		"cjson.h": "c",
-		"functions.h": "c",
-		"reader.h": "c",
-		"locale.h": "c"
+		"stdlib.h": "c"
 	}
 }

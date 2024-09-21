@@ -125,7 +125,7 @@ void parsePercursos(cJSON *percursoArray) {
 }
 
 void initArquivo() {
-	FILE *arquivo = fopen("../config/data.json", "r");
+	FILE *arquivo = fopen("./config/data.json", "r");
 
 	if (arquivo == NULL) {
 		printf("Erro ao abrir o arquivo JSON.\n");

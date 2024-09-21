@@ -9,11 +9,10 @@ int main() {
 		scanf("%d", &MAX_SIZE);
 		while (getchar() != '\n');
 
-		if (MAX_SIZE > 0) {
+		if (MAX_SIZE > 0)
 			break;
-		} else {
+		else
 			printf("Digite um valor valido!\n");
-		}
 	} while (1);
 
 	init(1);
