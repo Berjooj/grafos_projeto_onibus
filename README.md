@@ -19,7 +19,7 @@ Autores: Bernardo Moreira e Enzo Petry
 2. **Compilando**
 
    ```bash
-   cd grafos_projeto_onibus/build
+   cd grafos_projeto_onibus
    mkdir build
    cd build
    cmake -G "MinGW Makefiles" ..

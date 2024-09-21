@@ -32,14 +32,22 @@ typedef struct
 
 typedef struct
 {
-	char nome[100];
 	int **rotas;
 } Percurso;
+
+typedef struct
+{
+	int indiceFrota;
+	int indicePonto;
+	int indiceRota;
+	int indicePercurso;
+} Indices;
 
 int MAX_SIZE;
 Onibus *frota;
 Ponto *pontos;
 Rota *rotas;
 Percurso *percursos;
+Indices indices;
 
 #endif

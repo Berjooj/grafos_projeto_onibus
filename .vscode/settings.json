@@ -3,6 +3,15 @@
 		"*.tpl": "html",
 		"*.csv": "csv",
 		"stdio.h": "c",
-		"stdlib.h": "c"
+		"stdlib.h": "c",
+		"types.h": "c",
+		"stdbool.h": "c",
+		"string.h": "c",
+		"functions.h": "c",
+		"reader.h": "c",
+		"cjson.h": "c",
+		"*.gitignore": "c",
+		"itinerary.h": "c",
+		"itinerarycontroller.h": "c"
 	}
 }

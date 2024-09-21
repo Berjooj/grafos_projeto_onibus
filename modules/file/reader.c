@@ -1,3 +1,5 @@
+#include "reader.h"
+
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -5,14 +7,13 @@
 
 #include "../../dependencies/cJSON/cJSON.h"
 #include "../types.h"
-#include "reader.h"
 
 void parseOnibus(cJSON *onibusArray) {
 	int i;
 	int qtd = cJSON_GetArraySize(onibusArray);
 
 	for (i = 0; i < qtd; i++) {
-		if (qtd >= MAX_SIZE) {
+		if (qtd > MAX_SIZE) {
 			printf("Onibus nao incluido, matriz sem espaco!\n");
 			break;
 		}
@@ -29,6 +30,8 @@ void parseOnibus(cJSON *onibusArray) {
 		frota[i].lotacaoAtual = lotacaoAtual->valueint;
 		frota[i].capacidadeCombustivel = (float)capacidadeCombustivel->valuedouble;
 		frota[i].autonomia = (float)autonomia->valuedouble;
+
+		indices.indiceFrota = i;
 	}
 }
 
@@ -37,7 +40,7 @@ void parseRotas(cJSON *rotasArray) {
 	int qtd = cJSON_GetArraySize(rotasArray);
 
 	for (i = 0; i < qtd; i++) {
-		if (qtd >= MAX_SIZE) {
+		if (qtd > MAX_SIZE) {
 			printf("Rota nao incluida, matriz sem espaco!\n");
 			break;
 		}
@@ -51,6 +54,8 @@ void parseRotas(cJSON *rotasArray) {
 		strcpy(rotas[i].nome, nome->valuestring);
 		rotas[i].distancia = distancia->valuedouble;
 		rotas[i].tempoPercurso = tempoPercurso->valueint;
+
+		indices.indiceRota = i;
 	}
 }
 
@@ -59,7 +64,7 @@ void parsePontos(cJSON *pontosArray) {
 	int qtd = cJSON_GetArraySize(pontosArray);
 
 	for (i = 0; i < qtd; i++) {
-		if (qtd >= MAX_SIZE) {
+		if (qtd > MAX_SIZE) {
 			printf("Ponto nao incluido, matriz sem espaco!\n");
 			break;
 		}
@@ -74,6 +79,8 @@ void parsePontos(cJSON *pontosArray) {
 		pontos[i].eGaragem = eGaragem->valueint;
 		pontos[i].lat = lat->valuedouble;
 		pontos[i].lng = lng->valuedouble;
+
+		indices.indicePonto = i;
 	}
 }
 
@@ -82,7 +89,7 @@ void parsePercursos(cJSON *percursoArray) {
 	int qtd = cJSON_GetArraySize(percursoArray);
 
 	for (i = 0; i < qtd; i++) {
-		if (qtd >= MAX_SIZE) {
+		if (qtd > MAX_SIZE) {
 			printf("Percurso nao incluido, matriz sem espaco!\n");
 			break;
 		}
@@ -90,9 +97,6 @@ void parsePercursos(cJSON *percursoArray) {
 		cJSON *percursoItem = cJSON_GetArrayItem(percursoArray, i);
 		cJSON *nome = cJSON_GetObjectItem(percursoItem, "nome");
 		cJSON *rotasJson = cJSON_GetObjectItem(percursoItem, "rotas");
-
-		// Copiando o nome do percurso
-		strcpy(percursos[i].nome, nome->valuestring);
 
 		int qtdRotas = cJSON_GetArraySize(rotasJson);
 		for (j = 0; j < qtdRotas; j++) {
@@ -119,8 +123,10 @@ void parsePercursos(cJSON *percursoArray) {
 			if (indiceOrigem != -1 && indiceDestino != -1 && indiceRota != -1)
 				percursos[i].rotas[indiceOrigem][indiceDestino] = indiceRota;
 			else
-				printf("Erro: Rota não encontrada (%s -> %s, %s)\n", origem->valuestring, destino->valuestring, _rota->valuestring);
+				printf("Erro: Rota nao encontrada (%s -> %s, %s)\n", origem->valuestring, destino->valuestring, _rota->valuestring);
 		}
+
+		indices.indicePercurso = i;
 	}
 }
 

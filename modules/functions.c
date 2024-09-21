@@ -18,6 +18,17 @@ void init(int lerArquivo) {
 	rotas = (Rota *)malloc(MAX_SIZE * sizeof(Rota));
 	percursos = (Percurso *)malloc(MAX_SIZE * sizeof(Percurso));
 
+	indices.indiceFrota = 0;
+	indices.indicePercurso = 0;
+	indices.indicePonto = 0;
+	indices.indiceRota = 0;
+
+	for (i = 0; i < MAX_SIZE; i++) {
+		strcpy(rotas[i].nome, "[A definir]");
+		rotas[i].tempoPercurso = 0;
+		rotas[i].distancia = 0;
+	}
+
 	for (i = 0; i < MAX_SIZE; i++) {
 		percursos[i].rotas = malloc(MAX_SIZE * sizeof(int));
 
@@ -38,7 +49,6 @@ void init(int lerArquivo) {
 		pontos[i].eGaragem = false;
 		strcpy(pontos[i].endereco, "[A definir]");
 
-		strcpy(percursos[i].nome, "[A definir]");
 		for (j = 0; j < MAX_SIZE; j++) {
 			for (k = 0; k < MAX_SIZE; k++) {
 				percursos[i].rotas[j][k] = -1;
@@ -50,4 +60,13 @@ void init(int lerArquivo) {
 	if (lerArquivo == 1) {
 		initArquivo();
 	}
+}
+
+void limparTela() {
+#ifdef _WIN32
+	system("cls");
+#else
+	system("clear");
+#endif
+	return;
 }
