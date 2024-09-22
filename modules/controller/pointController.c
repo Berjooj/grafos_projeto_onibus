@@ -1,6 +1,7 @@
 #include <stdio.h>
 
 #include "../types.h"
+#include "calculatorController.h"
 
 void adicionarPonto() {
 	int i;
@@ -46,7 +47,8 @@ void adicionarPonto() {
 void editarPonto() {
 	printf("Editar ponto:\n");
 	for (int i = 0; i <= indices.indicePonto; i++) {
-		printf("%d) %s\n", (i + 1), pontos[i].endereco);
+		printf("%d) %s", (i + 1), pontos[i].endereco);
+		calculaQuantidadeOnibusParada(i);
 	}
 
 	printf("0) Voltar\n");
@@ -101,7 +103,8 @@ void editarPonto() {
 void removerPonto() {
 	printf("Exclusao de ponto:\n");
 	for (int i = 0; i <= indices.indicePonto; i++) {
-		printf("%d) %s\n", (i + 1), pontos[i].endereco);
+		printf("%d) %s ", (i + 1), pontos[i].endereco);
+		calculaQuantidadeOnibusParada(i);
 	}
 
 	printf("0) Voltar\n");
@@ -228,7 +231,9 @@ void exibirPontos() {
 		}
 
 		printf("Indice: %d\n", i + 1);
-		printf("Endereco: %s\nLatitude: %.2f\nLongitude: %.2f\nGaragem: %s\n\n", pontos[i].endereco, pontos[i].lat, pontos[i].lng, garagem);
+		printf("Endereco: %s\nLatitude: %.2f\nLongitude: %.2f\nGaragem: %s\n", pontos[i].endereco, pontos[i].lat, pontos[i].lng, garagem);
+		calculaQuantidadeOnibusParada(i);
+		printf("\n");
 	}
 
 	system("pause");

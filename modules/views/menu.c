@@ -1,7 +1,7 @@
+#include "bus.c"
 #include "itinerary.c"
 #include "points.c"
 #include "routes.c"
-#include "bus.c"
 #include "../file/exporter.c"
 
 void menu() {
@@ -14,9 +14,7 @@ void menu() {
 		printf("2. Gerenciar Rotas\n");
 		printf("3. Gerenciar Onibus\n");
 		printf("4. Definir Roteiro\n");
-		printf("5. ??\n");
-		printf("6. ??\n");
-		printf("7. Exportar JSON\n");
+		printf("5. Exportar JSON\n");
 		printf("0. Sair\n");
 		printf("Escolha uma opcao: ");
 
@@ -36,7 +34,7 @@ void menu() {
 			case 4:
 				definirRoteiro();
 				break;
-			case 7:
+			case 5:
 				exportarJson();
 				break;
 			case 0:
