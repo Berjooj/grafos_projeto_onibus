@@ -129,26 +129,26 @@ void removerOnibus() {
 
 	int i, j;
 
-	for (i = 0; i < MAX_SIZE - 1; i++) {
+	for (i = indice; i < indices.indiceFrota; i++) {
 		percursos[i] = percursos[i + 1];
 		frota[i] = frota[i + 1];
 	}
 
-	strcpy(frota[MAX_SIZE - 1].nome, "[A definir]");
-	frota[MAX_SIZE - 1].autonomia = 0;
-	frota[MAX_SIZE - 1].capacidadeCombustivel = 0;
-	frota[MAX_SIZE - 1].lotacaoAtual = 0;
-	frota[MAX_SIZE - 1].lotacaoMaxima = 0;
+	strcpy(frota[indices.indiceFrota].nome, "[A definir]");
+	frota[indices.indiceFrota].autonomia = 0;
+	frota[indices.indiceFrota].capacidadeCombustivel = 0;
+	frota[indices.indiceFrota].lotacaoAtual = 0;
+	frota[indices.indiceFrota].lotacaoMaxima = 0;
 
 	for (i = 0; i < MAX_SIZE; i++) {
 		for (j = 0; j < MAX_SIZE; j++) {
-			percursos[MAX_SIZE - 1].rotas[i][j] = -1;
+			percursos[indices.indiceFrota].rotas[i][j] = -1;
 		}
 	}
 
 	indices.indiceFrota--;
 
-	printf("Onibus removida com sucesso\n");
+	printf("Onibus removido com sucesso\n");
 	system("pause");
 }
 

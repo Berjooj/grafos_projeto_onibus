@@ -52,11 +52,10 @@ void calculaQuantidadeOnibusRota(int rota) {
 	int onibus[100];
 	int origem[100];
 	int destino[100];
-	int adicionados[100] = {0};
 
 	for (int i = 0; i <= indices.indiceFrota; i++) {
-		for (int j = 0; j < indices.indicePonto; j++) {
-			for (int k = 0; k < indices.indicePonto; k++) {
+		for (int j = 0; j <= indices.indicePonto; j++) {
+			for (int k = 0; k <= indices.indicePonto; k++) {
 				if (percursos[i].rotas[j][k] == rota) {
 					onibus[quantidade] = i;
 					origem[quantidade] = j;
@@ -66,40 +65,22 @@ void calculaQuantidadeOnibusRota(int rota) {
 			}
 		}
 	}
-
 	if (quantidade == 0) {
-		printf("(Sem uso)\n");
+		printf("Sem uso\n");
 	} else if (quantidade == 1) {
-		printf("(Em uso pelo onibus %s, passa pelos pontos '%s' - '%s')\n",
+		printf("Em uso por: \n- %s: '%s' - '%s')\n",
 			   frota[onibus[0]].nome,
 			   pontos[origem[0]].endereco,
 			   pontos[destino[0]].endereco);
 	} else {
-		printf("(Em uso pelos onibus ");
-
-		int primeiro = 1;
+		printf("Em uso por: \n");
 		for (int i = 0; i < quantidade; i++) {
-			if (!adicionados[onibus[i]]) {
-				if (!primeiro) {
-					printf(", ");
-				}
-				printf("%s", frota[onibus[i]].nome);
-				adicionados[onibus[i]] = 1;
-				primeiro = 0;
-			}
-		}
-
-		printf(" passando pelos pontos: ");
-
-		for (int i = 0; i < quantidade; i++) {
-			printf(" ('%s' - '%s')",
+			printf("- %s: '%s' - '%s'",
+				   frota[onibus[i]].nome,
 				   pontos[origem[i]].endereco,
 				   pontos[destino[i]].endereco);
-			if (i < quantidade - 1) {
-				printf(", ");
-			}
+			printf("\n");
 		}
-		printf("\n");
 	}
 }
 

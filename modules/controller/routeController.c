@@ -41,8 +41,9 @@ void editarRota() {
 	limparTela();
 	printf("Editar rota:\n");
 	for (int i = 0; i <= indices.indiceRota; i++) {
-		printf("%d) %s\n", (i + 1), rotas[i].nome);
+		printf("%d) %s - ", (i + 1), rotas[i].nome);
 		calculaQuantidadeOnibusRota(i);
+		printf("\n");
 	}
 
 	printf("0) Voltar\n");
@@ -108,6 +109,7 @@ void removerRota() {
 	for (int i = 0; i <= indices.indiceRota; i++) {
 		printf("%d) %s - ", (i + 1), rotas[i].nome);
 		calculaQuantidadeOnibusRota(i);
+		printf("\n");
 	}
 
 	printf("0) Voltar\n");
