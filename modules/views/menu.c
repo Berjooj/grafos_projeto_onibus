@@ -1,3 +1,4 @@
+#include "../controller/calculatorController.c"
 #include "itinerary.c"
 #include "points.c"
 #include "routes.c"
@@ -13,11 +14,11 @@ void menu() {
 		printf("2. Gerenciar Rotas\n");
 		printf("3. Gerenciar Onibus\n");
 		printf("4. Definir Roteiro\n");
-		printf("5. ??\n");
-		printf("6. ??\n");
-		printf("7. ??\n");
-		printf("8. ??\n");
-		printf("9. ??\n");
+		printf("5. Validar quantos onibus passam pela parada\n");
+		printf("6. Validar quantos onibus utilizam a mesma rota\n");
+		printf("7. Validar quantas rotas sao utilizadas por uma linha de onibus\n");
+		printf("8. Validar quantar paradas existem em um roteiro do onibus\n");
+		printf("9. Exportar em Json\n");
 		printf("0. Sair\n");
 		printf("Escolha uma opcao: ");
 
@@ -37,9 +38,18 @@ void menu() {
 			case 4:
 				definirRoteiro();
 				break;
-			// case 5:
-			// 	listarMatriz();
-			// 	break;
+			case 5:
+				calculaQuantidadeOnibusParada();
+				break;
+			case 6:
+				calculaQuantidadeOnibusRota();
+				break;
+			case 7:
+				break;
+			case 8:
+				break;
+			case 9:
+				break;
 			case 0:
 				printf("Saindo...\n");
 				break;
