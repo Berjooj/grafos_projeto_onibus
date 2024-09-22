@@ -1,10 +1,11 @@
 #include <stdio.h>
 
 #include "../types.h"
+#include "calculatorController.h"
 
 void adicionarRota() {
+	limparTela();
 	int i;
-
 	if (indices.indiceRota + 1 > MAX_SIZE) {
 		printf("A lista está cheia, remova uma rota antes de continuar\n\n");
 		system("pause");
@@ -37,9 +38,11 @@ void adicionarRota() {
 }
 
 void editarRota() {
+	limparTela();
 	printf("Editar rota:\n");
 	for (int i = 0; i <= indices.indiceRota; i++) {
 		printf("%d) %s\n", (i + 1), rotas[i].nome);
+		calculaQuantidadeOnibusRota(i);
 	}
 
 	printf("0) Voltar\n");
@@ -100,10 +103,11 @@ bool rota_em_uso(int indiceRota) {
 
 void removerRota() {
 	int indice;
-
+	limparTela();
 	printf("Exclusao de rota:\n");
 	for (int i = 0; i <= indices.indiceRota; i++) {
-		printf("%d) %s\n", (i + 1), rotas[i].nome);
+		printf("%d) %s - ", (i + 1), rotas[i].nome);
+		calculaQuantidadeOnibusRota(i);
 	}
 
 	printf("0) Voltar\n");
@@ -157,13 +161,16 @@ void removerRota() {
 }
 
 void exibirRotas() {
+	limparTela();
 	printf("Rotas:\n");
 
 	for (int i = 0; i <= indices.indiceRota; i++) {
 		printf("Indice: %d\n", i + 1);
 		printf("Nome: %s\n", rotas[i].nome);
 		printf("Distancia (km): %.2lf\n", rotas[i].distancia);
-		printf("Tempo de Percurso (minutos): %d\n\n", rotas[i].tempoPercurso);
+		printf("Tempo de Percurso (minutos): %d\n", rotas[i].tempoPercurso);
+		calculaQuantidadeOnibusRota(i);
+		printf("\n");
 	}
 
 	system("pause");

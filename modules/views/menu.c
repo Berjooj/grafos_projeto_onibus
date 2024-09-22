@@ -1,8 +1,7 @@
-#include "../controller/calculatorController.c"
+#include "bus.c"
 #include "itinerary.c"
 #include "points.c"
 #include "routes.c"
-#include "bus.c"
 
 void menu() {
 	int opcao;
@@ -39,10 +38,10 @@ void menu() {
 				definirRoteiro();
 				break;
 			case 5:
-				calculaQuantidadeOnibusParada();
+				// calculaQuantidadeOnibusParada();
 				break;
 			case 6:
-				calculaQuantidadeOnibusRota();
+				// calculaQuantidadeOnibusRota();
 				break;
 			case 7:
 				break;
