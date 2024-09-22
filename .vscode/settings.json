@@ -12,6 +12,7 @@
 		"cjson.h": "c",
 		"*.gitignore": "c",
 		"itinerary.h": "c",
-		"itinerarycontroller.h": "c"
+		"itinerarycontroller.h": "c",
+		"calculatorcontroller.h": "c"
 	}
 }

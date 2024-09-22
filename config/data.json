@@ -126,11 +126,21 @@
 		{
 			"linha": "B56",
 			"rotas": [
+				{
+					"origem": "Garagem",
+					"destino": "Triangulo Assis",
+					"rota": "Protasio Alves"
+				}
 			]
 		},
 		{
 			"linha": "B55",
 			"rotas": [
+				{
+					"origem": "Garagem",
+					"destino": "Triangulo Assis",
+					"rota": "Protasio Alves"
+				}
 			]
 		}
 	]
