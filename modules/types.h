@@ -43,7 +43,7 @@ typedef struct
 	int indicePercurso;
 } Indices;
 
-int MAX_SIZE;
+int MAX_SIZE = 100;
 Onibus *frota;
 Ponto *pontos;
 Rota *rotas;

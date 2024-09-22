@@ -85,7 +85,7 @@ void parsePontos(cJSON *pontosArray) {
 }
 
 void parsePercursos(cJSON *percursoArray) {
-	int i, j;
+	int i, j, k;
 	int qtd = cJSON_GetArraySize(percursoArray);
 
 	for (i = 0; i < qtd; i++) {
@@ -95,8 +95,22 @@ void parsePercursos(cJSON *percursoArray) {
 		}
 
 		cJSON *percursoItem = cJSON_GetArrayItem(percursoArray, i);
-		cJSON *nome = cJSON_GetObjectItem(percursoItem, "nome");
+		cJSON *linha = cJSON_GetObjectItem(percursoItem, "linha");
 		cJSON *rotasJson = cJSON_GetObjectItem(percursoItem, "rotas");
+
+		int indiceOnibus = -1;
+
+		for (j = 0; j <= indices.indiceFrota; j++) {
+			if (strcmp(frota[j].nome, linha->valuestring) == 0) {
+				indiceOnibus = j;
+				break;
+			}
+		}
+
+		if (indiceOnibus == -1) {
+			printf("Nao foi possivel carregar o percurso '%s'\n", linha->valuestring);
+			return;
+		}
 
 		int qtdRotas = cJSON_GetArraySize(rotasJson);
 		for (j = 0; j < qtdRotas; j++) {
@@ -108,7 +122,7 @@ void parsePercursos(cJSON *percursoArray) {
 			int indiceOrigem = -1, indiceDestino = -1, indiceRota = -1;
 
 			// Procurando o índice da origem no array de pontos
-			for (int k = 0; k < MAX_SIZE; k++) {
+			for (k = 0; k < MAX_SIZE; k++) {
 				if (strcmp(pontos[k].endereco, origem->valuestring) == 0)
 					indiceOrigem = k;
 
@@ -121,7 +135,7 @@ void parsePercursos(cJSON *percursoArray) {
 
 			// Atualizando a matriz de adjacência com os índices das pontos
 			if (indiceOrigem != -1 && indiceDestino != -1 && indiceRota != -1)
-				percursos[i].rotas[indiceOrigem][indiceDestino] = indiceRota;
+				percursos[indiceOnibus].rotas[indiceOrigem][indiceDestino] = indiceRota;
 			else
 				printf("Erro: Rota nao encontrada (%s -> %s, %s)\n", origem->valuestring, destino->valuestring, _rota->valuestring);
 		}

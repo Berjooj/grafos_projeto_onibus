@@ -60,10 +60,16 @@ void menuOnibusRoteiro(int indiceOnibus) {
 
 		printf("[Linha %s]\n", frota[indiceOnibus].nome);
 
+		printf("> Rotas em uso: %d\n", rotasPorOnibus(percursoTemp));
+		printf("> Arestas em uso: %d\n", arestasPorOnibus(percursoTemp));
+		printf("> Paradas em uso: %d\n\n", paradasPorOnibus(percursoTemp));
+
 		printf("1. Adicionar rota\n");
 		printf("2. Remover rota\n");
 		printf("3. Exibir roteiro\n");
 		printf("4. Exibir matriz\n");
+		printf("5. Copiar roteiro\n");
+		printf("6. Limpar roteiro\n");
 		printf("9. Salvar e voltar\n");
 		printf("0. Voltar sem salvar\n");
 		printf("Escolha uma opcao: ");
@@ -83,6 +89,12 @@ void menuOnibusRoteiro(int indiceOnibus) {
 				break;
 			case 4:
 				exibirMatrizPontoRota(&percursoTemp);
+				break;
+			case 5:
+				copiarRoteiro(&percursoTemp, indiceOnibus);
+				break;
+			case 6:
+				limparRoteiro(&percursoTemp);
 				break;
 			case 9:
 				// TODO:

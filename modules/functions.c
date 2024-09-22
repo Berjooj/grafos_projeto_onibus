@@ -12,6 +12,8 @@
 void init(int lerArquivo) {
 	int i, j, k;
 
+	printf("# Iniciando variaveis...\n");
+
 	// Aloca os vetores e matrizes
 	frota = (Onibus *)malloc(MAX_SIZE * sizeof(Onibus));
 	pontos = (Ponto *)malloc(MAX_SIZE * sizeof(Ponto));
@@ -57,8 +59,12 @@ void init(int lerArquivo) {
 		}
 	}
 
+	printf("# Variaveis inicializadas com sucesso...\n");
+
 	if (lerArquivo == 1) {
+		printf("# Carregando arquivo...\n");
 		initArquivo();
+		printf("# Arquivo carregado com sucesso...\n");
 	}
 }
 

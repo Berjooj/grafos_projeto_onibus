@@ -1,6 +1,7 @@
 #include "itineraryController.h"
 
 #include "../types.h"
+#include "calculatorController.c"
 
 void adicionarPontoRota(Percurso *percursoTemp) {
 	int idOrigem, idDestino, idRota, i;
@@ -132,13 +133,13 @@ void exibirMatrizPontoRota(Percurso *percursoTemp) {
 	int i, j;
 
 	printf("    | ");
-	for (j = 0; j < MAX_SIZE; j++) {
+	for (j = 0; j <= indices.indicePonto; j++) {
 		printf("%3d", j + 1);
 	}
 	printf("\n------------------------\n");
 
-	for (i = 0; i < MAX_SIZE; i++) {
-		for (j = 0; j < MAX_SIZE; j++) {
+	for (i = 0; i <= indices.indicePonto; i++) {
+		for (j = 0; j <= indices.indicePonto; j++) {
 			if (j == 0) {
 				printf("%3d | ", i + 1);
 			}
@@ -148,6 +149,71 @@ void exibirMatrizPontoRota(Percurso *percursoTemp) {
 		printf("\n");
 	}
 
+	system("pause");
+}
+
+void limparRoteiro(Percurso *percursoTemp) {
+	int i, j;
+	for (i = 0; i <= indices.indicePonto; i++) {
+		for (j = 0; j <= indices.indicePonto; j++) {
+			percursoTemp->rotas[i][j] = -1;
+		}
+	}
+
+	printf("Roteiro limpo\n");
+	system("pause");
+}
+
+void copiarRoteiro(Percurso *percursoTemp, int idOnibus) {
+	int indiceOnibus, i, j;
+
+	bool erro = false;
+
+	do {
+		limparTela();
+		printf("Selecione um roteiro para copiar:\n");
+
+		for (i = 0; i <= indices.indiceFrota; i++) {
+			if (i == idOnibus) {
+				continue;
+			}
+
+			printf("%d. %s\n", i + 1, frota[i].nome);
+		}
+
+		printf("0. Voltar\n");
+
+		if (!erro) {
+			printf("Escolha uma opcao: ");
+		} else {
+			printf("Opcao invalida, tente novamente: ");
+		}
+
+		do {
+			scanf("%d", &indiceOnibus);
+			while (getchar() != '\n');
+
+			if (indiceOnibus >= 0 && indiceOnibus <= MAX_SIZE) {
+				break;
+			}
+		} while (1);
+
+		indiceOnibus--;
+		if (indiceOnibus != idOnibus) {
+			limparTela();
+			break;
+		}
+
+		erro = true;
+	} while (1);
+
+	for (i = 0; i <= indices.indicePonto; i++) {
+		for (j = 0; j <= indices.indicePonto; j++) {
+			percursoTemp->rotas[i][j] = percursos[indiceOnibus].rotas[i][j];
+		}
+	}
+
+	printf("Roteiro clonado com sucesso\n");
 	system("pause");
 }
 

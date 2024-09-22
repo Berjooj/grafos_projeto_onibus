@@ -89,6 +89,7 @@
 	],
 	"percurso": [
 		{
+			"linha": "T10",
 			"rotas": [
 				{
 					"origem": "Triangulo Assis",
@@ -120,6 +121,16 @@
 					"destino": "Triangulo Assis",
 					"rota": "Protasio Alves"
 				}
+			]
+		},
+		{
+			"linha": "B56",
+			"rotas": [
+			]
+		},
+		{
+			"linha": "B55",
+			"rotas": [
 			]
 		}
 	]
