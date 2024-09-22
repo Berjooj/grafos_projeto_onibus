@@ -7,6 +7,6 @@ void adicionarPontoRota(Percurso *percursoTemp);
 void removerPontoRota(Percurso *percursoTemp);
 void exibirPontoRota(Percurso *percursoTemp);
 void exibirMatrizPontoRota(Percurso *percursoTemp);
-void salvarPontoRota(Percurso *percursoTemp);
+void salvarPontoRota(Percurso *percursoTemp,int indiceOnibus);
 
 #endif
