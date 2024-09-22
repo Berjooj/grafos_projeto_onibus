@@ -3,7 +3,7 @@ Autores: Bernardo Moreira e Enzo Petry
 ## Dependências
 
 - **CMake**: Ferramenta para gerar arquivos de build para o compilador.
-- **Compilador C**: **MinGW**, GCC, MinGW, Clang ou MSVC, dependendo do ambiente.
+- **Compilador C**: **MinGW, GCC 6.3.0**, Clang ou MSVC, dependendo do ambiente.
 - **Biblioteca `cJSON`**: Biblioteca para manipulação de JSON em C.
 
 ## Configuração e Compilação
@@ -29,4 +29,5 @@ Autores: Bernardo Moreira e Enzo Petry
 2. **Execução**
 
    ```bash
+   cd ../
    ./main.exe

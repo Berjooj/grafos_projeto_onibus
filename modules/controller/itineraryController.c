@@ -1,10 +1,11 @@
-#include "../types.h"
 #include "itineraryController.h"
+
+#include "../types.h"
 
 void adicionarPontoRota(Percurso *percursoTemp) {
 	int idOrigem, idDestino, idRota, i;
 
-	for (i = 0; i < MAX_SIZE; i++) {
+	for (i = 0; i <= indices.indicePonto; i++) {
 		printf("%d. %s\n", i + 1, pontos[i].endereco);
 	}
 
@@ -33,7 +34,11 @@ void adicionarPontoRota(Percurso *percursoTemp) {
 		printf("Opcao invalida, tente novamente: ");
 	} while (1);
 
-	for (i = 0; i < MAX_SIZE; i++) {
+	for (i = 0; i <= indices.indiceRota; i++) {
+		if (strcmp(rotas[i].nome, "[A definir]") == 0) {
+			continue;
+		}
+
 		printf("%d. %s (%.2lf km)\n", i + 1, rotas[i].nome, rotas[i].distancia);
 	}
 
@@ -56,9 +61,9 @@ void adicionarPontoRota(Percurso *percursoTemp) {
 }
 
 void removerPontoRota(Percurso *percursoTemp) {
-		int idOrigem, idDestino, idRota, i;
+	int idOrigem, idDestino, idRota, i;
 
-	for (i = 0; i < MAX_SIZE; i++) {
+	for (i = 0; i <= indices.indicePonto; i++) {
 		printf("%d. %s\n", i + 1, pontos[i].endereco);
 	}
 
@@ -103,8 +108,9 @@ void exibirPontoRota(Percurso *percursoTemp) {
 			if (percursoTemp->rotas[i][j] != -1) {
 				exibiu = true;
 				printf(
-					"Rota %s\n    Origem: %s (%.4lf, %.4lf)\n    Destino: %s (%.4lf, %.4lf)\n",
+					"| Rota: %s (%.2lf km)\n| Origem: %s (%.4lf, %.4lf)\n| Destino: %s (%.4lf, %.4lf)\n\n",
 					rotas[percursoTemp->rotas[i][j]].nome,
+					rotas[percursoTemp->rotas[i][j]].distancia,
 					pontos[i].endereco,
 					pontos[i].lat,
 					pontos[i].lng,
@@ -125,9 +131,19 @@ void exibirPontoRota(Percurso *percursoTemp) {
 void exibirMatrizPontoRota(Percurso *percursoTemp) {
 	int i, j;
 
+	printf("    | ");
+	for (j = 0; j < MAX_SIZE; j++) {
+		printf("%3d", j + 1);
+	}
+	printf("\n------------------------\n");
+
 	for (i = 0; i < MAX_SIZE; i++) {
 		for (j = 0; j < MAX_SIZE; j++) {
-			printf("%3d", percursoTemp->rotas[i][j]);
+			if (j == 0) {
+				printf("%3d | ", i + 1);
+			}
+
+			printf("%3d", percursoTemp->rotas[i][j] + 1);
 		}
 		printf("\n");
 	}

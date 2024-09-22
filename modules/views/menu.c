@@ -1,6 +1,7 @@
 #include "itinerary.c"
 #include "points.c"
-// #include "../views/routeController.c"
+#include "routes.c"
+#include "bus.c"
 
 void menu() {
 	int opcao;
@@ -28,11 +29,11 @@ void menu() {
 				gerenciarPontos();
 				break;
 			case 2:
-				// cadastrarRotas();
+				gerenciarRotas();
 				break;
-			// case 3:
-			// 	exibirPontos();
-			// 	break;
+			case 3:
+				gerenciarOnibus();
+				break;
 			case 4:
 				definirRoteiro();
 				break;

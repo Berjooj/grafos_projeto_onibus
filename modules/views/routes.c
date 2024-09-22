@@ -1,18 +1,18 @@
 #include <stdlib.h>
 
-#include "../controller/pointController.c"
+#include "../controller/routeController.c"
 
-void gerenciarPontos() {
+void gerenciarRotas() {
 	int opcao;
 
 	do {
 		limparTela();
 
-		printf("\nGerenciar Pontos:\n");
-		printf("1. Adicionar ponto\n");
-		printf("2. Editar ponto\n");
-		printf("3. Listar pontos\n");
-		printf("4. Remover ponto\n");
+		printf("\nGerenciar Rotas:\n");
+		printf("1. Adicionar rota\n");
+		printf("2. Editar rota\n");
+		printf("3. Listar rotas\n");
+		printf("4. Remover rota\n");
 		printf("0. Voltar\n");
 		printf("Escolha uma opcao: ");
 
@@ -21,16 +21,16 @@ void gerenciarPontos() {
 
 		switch (opcao) {
 			case 1:
-				adicionarPonto();
+				adicionarRota();
 				break;
 			case 2:
-				editarPonto();
+				editarRota();
 				break;
 			case 3:
-				exibirPontos();
+				exibirRotas();
 				break;
 			case 4:
-				removerPonto();
+				removerRota();
 				break;
 			case 0:
 				limparTela();

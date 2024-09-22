@@ -17,6 +17,9 @@ int main() {
 	// } while (1);
 
 	MAX_SIZE = 10;
+
+	limparTela();
+
 	init(1);
 
 	menu();

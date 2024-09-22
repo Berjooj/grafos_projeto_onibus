@@ -34,47 +34,90 @@
 			"tempoPercurso": 45
 		},
 		{
+			"nome": "Rota Teste",
+			"distancia": 99.99,
+			"tempoPercurso": 130
+		},
+		{
 			"nome": "Assis Brasil",
 			"distancia": 25.0,
 			"tempoPercurso": 45
+		},
+		{
+			"nome": "Baltazar",
+			"distancia": 18.0,
+			"tempoPercurso": 20
 		}
 	],
 	"pontos": [
 		{
-			"endereco": "Rua A, 123",
+			"endereco": "Triangulo Assis",
 			"eGaragem": false,
 			"lat": -23.55052,
 			"lng": -46.63331
 		},
 		{
-			"endereco": "Avenida B, 456",
+			"endereco": "Parada Baltazar A",
 			"eGaragem": false,
 			"lat": -23.55678,
 			"lng": -46.63432
 		},
 		{
-			"endereco": "Avenida C, 789",
+			"endereco": "Parada Baltazar B",
+			"eGaragem": false,
+			"lat": -23.34534,
+			"lng": -46.66343
+		},
+		{
+			"endereco": "Parada Manuel Elias",
+			"eGaragem": false,
+			"lat": -23.12312,
+			"lng": -46.12312
+		},
+		{
+			"endereco": "FAPA",
+			"eGaragem": false,
+			"lat": -23.312312,
+			"lng": -46.123123
+		},
+		{
+			"endereco": "Garagem",
 			"eGaragem": true,
-			"lat": -23.55678,
-			"lng": -46.63432
+			"lat": -23.31231,
+			"lng": -46.12312
 		}
 	],
 	"percurso": [
 		{
 			"rotas": [
 				{
-					"origem": "Rua A, 123",
-					"destino": "Avenida B, 456",
+					"origem": "Triangulo Assis",
+					"destino": "Parada Baltazar A",
 					"rota": "Assis Brasil"
 				},
 				{
-					"origem": "Avenida B, 456",
-					"destino": "Rua A, 123",
+					"origem": "Parada Baltazar A",
+					"destino": "Parada Baltazar B",
+					"rota": "Baltazar"
+				},
+				{
+					"origem": "Parada Baltazar B",
+					"destino": "Parada Manuel Elias",
 					"rota": "Manuel Elias"
 				},
 				{
-					"origem": "Rua A, 123",
-					"destino": "Avenida C, 789",
+					"origem": "Parada Manuel Elias",
+					"destino": "FAPA",
+					"rota": "Manuel Elias"
+				},
+				{
+					"origem": "FAPA",
+					"destino": "Garagem",
+					"rota": "Protasio Alves"
+				},
+				{
+					"origem": "Garagem",
+					"destino": "Triangulo Assis",
 					"rota": "Protasio Alves"
 				}
 			]

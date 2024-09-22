@@ -7,10 +7,11 @@
 void definirRoteiro() {
 	int indiceOnibus, i;
 
+	limparTela();
 	do {
 		printf("Selecionar Roteiro:\n");
 
-		for (i = 0; i < MAX_SIZE; i++) {
+		for (i = 0; i <= indices.indiceFrota; i++) {
 			printf("%d. %s\n", i + 1, frota[i].nome);
 		}
 
@@ -29,6 +30,7 @@ void definirRoteiro() {
 		} while (1);
 
 		if (indiceOnibus == 0) {
+			limparTela();
 			break;
 		}
 
@@ -87,7 +89,7 @@ void menuOnibusRoteiro(int indiceOnibus) {
 				salvarPontoRota(&percursoTemp);
 				break;
 			case 0:
-				// TODO:
+				limparTela();
 				break;
 			default:
 				printf("Opcao invalida! Tente novamente: ");
