@@ -2,10 +2,12 @@
 
 #include "../types.h"
 
-void adicionarPontoRota(Percurso *percursoTemp) {
+void adicionarPontoRota(Percurso *percursoTemp)
+{
 	int idOrigem, idDestino, idRota, i;
 
-	for (i = 0; i <= indices.indicePonto; i++) {
+	for (i = 0; i <= indices.indicePonto; i++)
+	{
 		printf("%d. %s\n", i + 1, pontos[i].endereco);
 	}
 
@@ -40,39 +42,48 @@ void adicionarPontoRota(Percurso *percursoTemp) {
 		printf("Opcao invalida, tente novamente: ");
 	} while (1);
 
-	for (i = 0; i <= indices.indiceRota; i++) {
-		if (strcmp(rotas[i].nome, "[A definir]") == 0) {
-			continue;
-		}
-
-		printf("%d. %s (%.2lf km)\n", i + 1, rotas[i].nome, rotas[i].distancia);
-	}
-
-	printf("Escolha a rota do percurso: ");
-	do
+	if (idOrigem == idDestino)
 	{
-		scanf("%d", &idRota);
-		while (getchar() != '\n')
-			;
-
-		if (idRota > 0 && idRota <= MAX_SIZE)
+		printf("\nRota invalida, Origem precisa ser diferente de Destino\n");
+	}
+	else
+	{
+		for (i = 0; i <= indices.indiceRota; i++)
 		{
-			break;
+			if (strcmp(rotas[i].nome, "[A definir]") == 0)
+			{
+				continue;
+			}
+
+			printf("%d. %s (%.2lf km)\n", i + 1, rotas[i].nome, rotas[i].distancia);
 		}
 
-		printf("Opcao invalida, tente novamente: ");
-	} while (1);
+		printf("Escolha a rota do percurso: ");
+		do
+		{
+			scanf("%d", &idRota);
+			while (getchar() != '\n')
+				;
 
-	percursoTemp->rotas[idOrigem - 1][idDestino - 1] = idRota - 1;
+			if (idRota > 0 && idRota <= MAX_SIZE)
+			{
+				break;
+			}
 
-	printf("Rota adicionada com sucesso!\n");
+			printf("Opcao invalida, tente novamente: ");
+		} while (1);
+		percursoTemp->rotas[idOrigem - 1][idDestino - 1] = idRota - 1;
+		printf("\nRota adicionada com sucesso!\n");
+	}
 	system("pause");
 }
 
-void removerPontoRota(Percurso *percursoTemp) {
+void removerPontoRota(Percurso *percursoTemp)
+{
 	int idOrigem, idDestino, idRota, i;
 
-	for (i = 0; i <= indices.indicePonto; i++) {
+	for (i = 0; i <= indices.indicePonto; i++)
+	{
 		printf("%d. %s\n", i + 1, pontos[i].endereco);
 	}
 
@@ -106,11 +117,38 @@ void removerPontoRota(Percurso *percursoTemp) {
 
 		printf("Opcao invalida, tente novamente: ");
 	} while (1);
-
-	percursoTemp->rotas[idOrigem - 1][idDestino - 1] = -1;
-
-	printf("Rota removida com sucesso!\n");
-	system("pause");
+	for (int i = 0; i < MAX_SIZE; i++)
+	{
+		if (percursoTemp->rotas[idOrigem][i] != -1 && i < idDestino)
+		{
+			percursoTemp->rotas[idOrigem - 1][i] = percursoTemp->rotas[idOrigem - 1][idDestino - 1];
+			percursoTemp->rotas[idOrigem - 1][idDestino - 1] = -1;
+			percursoTemp->rotas[idOrigem][i] = -1;
+			break;
+		}
+		else if (percursoTemp->rotas[idOrigem][i] != -1 && i > idDestino - 1)
+		{
+			printf("%d e %d", idOrigem, i);
+			percursoTemp->rotas[idOrigem - 1][i] = percursoTemp->rotas[idOrigem][i];
+			percursoTemp->rotas[idOrigem][i] = -1;
+			percursoTemp->rotas[idOrigem - 1][idDestino - 1] = -1;
+			break;
+		}
+		else
+		{
+			for (int j = 0; j < idDestino; j++)
+			{
+				if (percursoTemp->rotas[idOrigem - 2][j] != -1)
+				{
+					percursoTemp->rotas[idOrigem - 1][j] = percursoTemp->rotas[idOrigem - 2][j];
+					percursoTemp->rotas[idOrigem - 2][j] = -1;
+					percursoTemp->rotas[idOrigem - 1][idDestino - 1] = -1;
+					break;
+				}
+			}
+		}
+		system("pause");
+	}
 }
 
 void exibirPontoRota(Percurso *percursoTemp)
@@ -153,14 +191,18 @@ void exibirMatrizPontoRota(Percurso *percursoTemp)
 	int i, j;
 
 	printf("    | ");
-	for (j = 0; j < MAX_SIZE; j++) {
+	for (j = 0; j < MAX_SIZE; j++)
+	{
 		printf("%3d", j + 1);
 	}
 	printf("\n------------------------\n");
 
-	for (i = 0; i < MAX_SIZE; i++) {
-		for (j = 0; j < MAX_SIZE; j++) {
-			if (j == 0) {
+	for (i = 0; i < MAX_SIZE; i++)
+	{
+		for (j = 0; j < MAX_SIZE; j++)
+		{
+			if (j == 0)
+			{
 				printf("%3d | ", i + 1);
 			}
 
@@ -179,6 +221,20 @@ void salvarPontoRota(Percurso *percursoTemp, int indiceOnibus)
 		for (int j = 0; j < MAX_SIZE; j++)
 		{
 			percursos[indiceOnibus].rotas[i][j] = percursoTemp->rotas[i][j];
+		}
+	}
+}
+
+bool validarPontoRota(Percurso *percursoTemp)
+{
+	for (int i = 0; i < MAX_SIZE; i++)
+	{
+		for (int j = 0; j < MAX_SIZE; j++)
+		{
+			if (i == j || percursoTemp->rotas[i][j] != 0)
+			{
+				printf("Não pode salvar uma Rota que com mesma origem e destino");
+			}
 		}
 	}
 }
