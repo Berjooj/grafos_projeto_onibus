@@ -5,19 +5,21 @@
 
 void adicionarPontoRota(Percurso *percursoTemp) {
 	int idOrigem, idDestino, idRota, i;
-
+	limparTela();
 	for (i = 0; i <= indices.indicePonto; i++) {
 		printf("%d. %s\n", i + 1, pontos[i].endereco);
 	}
-
+	printf("0. Voltar\n");
 	printf("Escolha o ponto de ORIGEM: ");
 
 	do {
 		scanf("%d", &idOrigem);
 		while (getchar() != '\n');
 
-		if (idOrigem > 0 && idOrigem <= MAX_SIZE) {
+		if (idOrigem > 0 && idOrigem <= indices.indicePonto + 1) {
 			break;
+		} else if (idOrigem == 0) {
+			return;
 		}
 
 		printf("Opcao invalida, tente novamente: ");
@@ -28,8 +30,10 @@ void adicionarPontoRota(Percurso *percursoTemp) {
 		scanf("%d", &idDestino);
 		while (getchar() != '\n');
 
-		if (idDestino > 0 && idDestino <= MAX_SIZE) {
+		if (idDestino > 0 && idDestino <= indices.indicePonto + 1) {
 			break;
+		} else if (idDestino == 0) {
+			return;
 		}
 
 		printf("Opcao invalida, tente novamente: ");
@@ -45,14 +49,16 @@ void adicionarPontoRota(Percurso *percursoTemp) {
 
 			printf("%d. %s (%.2lf km)\n", i + 1, rotas[i].nome, rotas[i].distancia);
 		}
-
+		printf("0. Voltar\n");
 		printf("Escolha a rota do percurso: ");
 		do {
 			scanf("%d", &idRota);
 			while (getchar() != '\n');
-
-			if (idRota > 0 && idRota <= MAX_SIZE) {
+			// printf("%d \n %d", indices.indiceRota, indices.indicePercurso);
+			if (idRota > 0 && idRota <= indices.indiceRota + 1) {
 				break;
+			} else if (idRota == 0) {
+				return;
 			}
 			printf("Opcao invalida, tente novamente: ");
 		} while (1);
@@ -69,19 +75,21 @@ void adicionarPontoRota(Percurso *percursoTemp) {
 
 void removerPontoRota(Percurso *percursoTemp) {
 	int idOrigem, idDestino, idRota, i;
-
+	limparTela();
 	for (i = 0; i <= indices.indicePonto; i++) {
 		printf("%d. %s\n", i + 1, pontos[i].endereco);
 	}
-
+	printf("0. Voltar\n");
 	printf("Escolha o ponto de ORIGEM: ");
 
 	do {
 		scanf("%d", &idOrigem);
 		while (getchar() != '\n');
 
-		if (idOrigem > 0 && idOrigem <= MAX_SIZE) {
+		if (idOrigem > 0 && idOrigem <= indices.indicePonto + 1) {
 			break;
+		} else if (idOrigem == 0) {
+			return;
 		}
 
 		printf("Opcao invalida, tente novamente: ");
@@ -92,13 +100,21 @@ void removerPontoRota(Percurso *percursoTemp) {
 		scanf("%d", &idDestino);
 		while (getchar() != '\n');
 
-		if (idDestino > 0 && idDestino <= MAX_SIZE) {
+		if (idDestino > 0 && idDestino <= indices.indicePonto + 1) {
 			break;
+		} else if (idDestino == 0) {
+			return;
 		}
 
 		printf("Opcao invalida, tente novamente: ");
 	} while (1);
-	percursoTemp->rotas[idOrigem - 1][idDestino - 1] = -1;
+	if (percursoTemp->rotas[idOrigem - 1][idDestino - 1] != -1) {
+		percursoTemp->rotas[idOrigem - 1][idDestino - 1] = -1;
+		printf("Rota Removida\n\n");
+	} else {
+		printf("Nao existe uma rota a ser excluida\n");
+	}
+
 	// for (int i = 0; i < MAX_SIZE; i++)
 	// {
 	// 	if (percursoTemp->rotas[idOrigem][i] != -1 && i < idDestino)
@@ -187,6 +203,7 @@ void exibirMatrizPontoRota(Percurso *percursoTemp) {
 
 void limparRoteiro(Percurso *percursoTemp) {
 	int i, j;
+	limparTela();
 	for (i = 0; i <= indices.indicePonto; i++) {
 		for (j = 0; j <= indices.indicePonto; j++) {
 			percursoTemp->rotas[i][j] = -1;
@@ -226,9 +243,12 @@ void copiarRoteiro(Percurso *percursoTemp, int idOnibus) {
 			scanf("%d", &indiceOnibus);
 			while (getchar() != '\n');
 
-			if (indiceOnibus >= 0 && indiceOnibus <= MAX_SIZE) {
+			if (indiceOnibus > 0 && indiceOnibus <= indices.indiceFrota + 1) {
 				break;
+			} else if (indiceOnibus == 0) {
+				return;
 			}
+			printf("Opcao invalida, tente novamente: ");
 		} while (1);
 
 		indiceOnibus--;

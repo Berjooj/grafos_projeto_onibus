@@ -134,6 +134,7 @@ void removerRota() {
 
 	if (rota_em_uso(indice)) {
 		printf("A rota '%s' esta em uso e nao pode ser excluida.\n", rotas[indice].nome);
+		system("pause");
 		return;
 	}
 

@@ -74,23 +74,23 @@ void editarOnibus() {
 
 	printf("Digite o nome do onibus: ");
 	fflush(stdin);
-	fgets(frota[indices.indiceFrota].nome, sizeof(frota[indices.indiceFrota].nome), stdin);
-	frota[indices.indiceFrota].nome[strcspn(frota[indices.indiceFrota].nome, "\n")] = '\0';
+	fgets(frota[indice].nome, sizeof(frota[indice].nome), stdin);
+	frota[indice].nome[strcspn(frota[indice].nome, "\n")] = '\0';
 
 	printf("Digite a capacidade do tanque em litros: ");
-	while (scanf("%f", &frota[indices.indiceFrota].capacidadeCombustivel) != 1) {
+	while (scanf("%f", &frota[indice].capacidadeCombustivel) != 1) {
 		printf("Entrada invalida. Digite um valor valido: ");
 		while (getchar() != '\n');
 	}
 
 	printf("Quantos kms por litro o onibus anda? ");
-	while (scanf("%f", &frota[indices.indiceFrota].autonomia) != 1) {
+	while (scanf("%f", &frota[indice].autonomia) != 1) {
 		printf("Entrada invalida. Digite um valor valido: ");
 		while (getchar() != '\n');
 	}
 
 	printf("Digite a lotacao maxima: ");
-	while (scanf("%d", &frota[indices.indiceFrota].lotacaoMaxima) != 1) {
+	while (scanf("%d", &frota[indice].lotacaoMaxima) != 1) {
 		printf("Entrada invalida. Digite um valor valido: ");
 		while (getchar() != '\n');
 	}

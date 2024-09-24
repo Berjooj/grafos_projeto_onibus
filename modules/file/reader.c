@@ -49,7 +49,6 @@ void parseRotas(cJSON *rotasArray) {
 		cJSON *nome = cJSON_GetObjectItem(rotaItem, "nome");
 		cJSON *distancia = cJSON_GetObjectItem(rotaItem, "distancia");
 		cJSON *tempoPercurso = cJSON_GetObjectItem(rotaItem, "tempoPercurso");
-		cJSON *existe = cJSON_GetObjectItem(rotaItem, "existe");
 
 		strcpy(rotas[i].nome, nome->valuestring);
 		rotas[i].distancia = distancia->valuedouble;
