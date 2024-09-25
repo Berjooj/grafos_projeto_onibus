@@ -24,12 +24,10 @@ Autores: Bernardo Moreira e Enzo Petry
    cd build
    cmake -G "MinGW Makefiles" ..
    cmake --build .
-   cd ../
-   .\main.exe
    ```
 
 2. **Execução**
 
    ```bash
    cd ../
-   ./main.exe
+   .\main.exe
