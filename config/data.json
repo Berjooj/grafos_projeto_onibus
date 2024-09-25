@@ -57,16 +57,10 @@
 			"lng": -46.63331
 		},
 		{
-			"endereco": "Parada Baltazar A",
+			"endereco": "Parada Baltazar",
 			"eGaragem": false,
 			"lat": -23.55678,
 			"lng": -46.63432
-		},
-		{
-			"endereco": "Parada Baltazar B",
-			"eGaragem": false,
-			"lat": -23.34534,
-			"lng": -46.66343
 		},
 		{
 			"endereco": "Parada Manuel Elias",
@@ -93,18 +87,13 @@
 			"rotas": [
 				{
 					"origem": "Triangulo Assis",
-					"destino": "Parada Baltazar A",
+					"destino": "Parada Baltazar",
 					"rota": "Assis Brasil"
 				},
 				{
-					"origem": "Parada Baltazar A",
-					"destino": "Parada Baltazar B",
-					"rota": "Baltazar"
-				},
-				{
-					"origem": "Parada Baltazar B",
+					"origem": "Parada Baltazar",
 					"destino": "Parada Manuel Elias",
-					"rota": "Manuel Elias"
+					"rota": "Baltazar"
 				},
 				{
 					"origem": "Parada Manuel Elias",

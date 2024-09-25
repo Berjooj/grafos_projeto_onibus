@@ -68,7 +68,7 @@ void calculaQuantidadeOnibusRota(int rota) {
 	if (quantidade == 0) {
 		printf("Sem uso\n");
 	} else if (quantidade == 1) {
-		printf("Em uso por: \n- %s: '%s' - '%s')\n",
+		printf("Em uso por: \n- %s: '%s' - '%s'\n",
 			   frota[onibus[0]].nome,
 			   pontos[origem[0]].endereco,
 			   pontos[destino[0]].endereco);
