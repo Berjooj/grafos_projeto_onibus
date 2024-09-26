@@ -158,15 +158,19 @@ void exibirPontoRota(Percurso *percursoTemp) {
 			if (percursoTemp->rotas[i][j] != -1) {
 				exibiu = true;
 				printf(
-					"| Rota: %s (%.2lf km)\n| Origem: %s (%.4lf, %.4lf)\n| Destino: %s (%.4lf, %.4lf)\n\n",
+					"| Rota: %s (%.2lf km)\n| Origem: %s (Lat: %.4lf, Lng: %.4lf, GE: %d, GS: %d)\n| Destino: %s (%.4lf, %.4lf, GE: %d, GS: %d)\n\n",
 					rotas[percursoTemp->rotas[i][j]].nome,
 					rotas[percursoTemp->rotas[i][j]].distancia,
 					pontos[i].endereco,
 					pontos[i].lat,
 					pontos[i].lng,
+					calcularGrauEntrada(percursoTemp, i),
+					calcularGrauSaida(percursoTemp, i),
 					pontos[j].endereco,
 					pontos[j].lat,
-					pontos[j].lng);
+					pontos[j].lng,
+					calcularGrauEntrada(percursoTemp, j),
+					calcularGrauSaida(percursoTemp, j));
 			}
 		}
 	}
@@ -174,6 +178,8 @@ void exibirPontoRota(Percurso *percursoTemp) {
 	if (!exibiu) {
 		printf("\nRoteiro nao definido\n");
 	}
+
+	printf("Legenda: Lat: Latitude; Lng: Longitude; GE: Grau de entrada; GS: Grau de saida\n");
 
 	system("pause");
 }
@@ -278,19 +284,105 @@ void salvarPontoRota(Percurso *percursoTemp, int indiceOnibus) {
 	}
 }
 
-// bool validarPontoRota(Percurso *percursoTemp)
-// {
-// 	for (int i = 0; i < MAX_SIZE; i++)
-// 	{
-// 		for (int j = 0; j < MAX_SIZE; j++)
-// 		{
-// 			if (percursoTemp->rotas[i][j != -1])
-// 			{
-// 				for (int k = 0; k < MAX_SIZE; k++)
-// 				{
-// 					percursoTemp->rotas[j][k]
-// 				}
-// 			}
-// 		}
-// 	}
-// }
+int calcularGrauEntrada(Percurso *percursoTemp, int indice) {
+	int grau = 0;
+	int i;
+
+	for (int i = 0; i <= indices.indicePonto; i++) {
+		if (percursoTemp->rotas[i][indice] != -1) {
+			grau++;
+		}
+	}
+
+	return grau;
+}
+
+int calcularGrauSaida(Percurso *percursoTemp, int indice) {
+	int grau = 0;
+	int i;
+
+	for (int i = 0; i <= indices.indicePonto; i++) {
+		if (percursoTemp->rotas[indice][i] != -1) {
+			grau++;
+		}
+	}
+
+	return grau;
+}
+
+void consultarPonto(Percurso *percursoTemp) {
+	int idPonto, i;
+	do {
+		limparTela();
+		for (i = 0; i <= indices.indicePonto; i++) {
+			printf("%d. %s\n", i + 1, pontos[i].endereco);
+		}
+		printf("0. Voltar\n");
+		printf("Escolha o ponto: ");
+
+		scanf("%d", &idPonto);
+		while (getchar() != '\n');
+
+		if (idPonto > 0 && idPonto <= indices.indicePonto + 1) {
+			printf(
+				"| %s: %s\n| Latitude: %.4lf\n| Longitude: %.4lf\n| Grau de Entrada: %d\n| Grau de Saida: %d\n\n",
+				pontos[idPonto - 1].eGaragem ? "Garagem" : "Parada",
+				pontos[idPonto - 1].endereco,
+				pontos[idPonto - 1].lat,
+				pontos[idPonto - 1].lng,
+				calcularGrauEntrada(percursoTemp, idPonto - 1),
+				calcularGrauSaida(percursoTemp, idPonto - 1));
+
+			system("pause");
+		} else if (idPonto == 0) {
+			return;
+		} else {
+			printf("Opcao invalida\n");
+			system("pause");
+		}
+	} while (1);
+}
+
+void consultarAresta(Percurso *percursoTemp) {
+	int idAresta, i;
+
+	do {
+		limparTela();
+		for (i = 0; i <= indices.indiceRota; i++) {
+			printf("%d. %s\n", i + 1, rotas[i].nome);
+		}
+
+		printf("0. Voltar\n");
+		printf("Escolha o ponto: ");
+
+		scanf("%d", &idAresta);
+		while (getchar() != '\n');
+
+		if (idAresta > 0 && idAresta <= indices.indiceRota + 1) {
+			idAresta--;
+
+			bool arestaEncontrada = false;
+
+			for (int i = 0; i <= indices.indiceRota; i++) {
+				for (int j = 0; j <= indices.indiceRota; j++) {
+					if (percursoTemp->rotas[i][j] == idAresta) {
+						arestaEncontrada = true;
+						printf("Aresta '%s' em uso entre '%s' e '%s'.\n", rotas[idAresta].nome, pontos[i].endereco, pontos[j].endereco);
+					}
+				}
+			}
+
+			if (!arestaEncontrada) {
+				printf("Aresta '%s' nao esta em uso no percurso.\n", rotas[idAresta].nome);
+			}
+
+			printf("\n");
+			system("pause");
+		} else if (idAresta == 0) {
+			return;
+		} else {
+			printf("Opcao invalida\n");
+			system("pause");
+		}
+	} while (1);
+}

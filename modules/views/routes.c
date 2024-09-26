@@ -8,11 +8,11 @@ void gerenciarRotas() {
 	do {
 		limparTela();
 
-		printf("\nGerenciar Rotas:\n");
-		printf("1. Adicionar rota\n");
-		printf("2. Editar rota\n");
-		printf("3. Listar rotas\n");
-		printf("4. Remover rota\n");
+		printf("\nGerenciar Rodovias:\n");
+		printf("1. Adicionar rodovia\n");
+		printf("2. Editar rodovia\n");
+		printf("3. Listar rodovias\n");
+		printf("4. Remover rodovia\n");
 		printf("0. Voltar\n");
 		printf("Escolha uma opcao: ");
 

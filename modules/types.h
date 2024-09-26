@@ -49,5 +49,6 @@ Ponto *pontos;
 Rota *rotas;
 Percurso *percursos;
 Indices indices;
+bool avisoInicial = false;
 
 #endif

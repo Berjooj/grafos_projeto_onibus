@@ -11,7 +11,7 @@ void menu() {
 		opcao = -1;
 		printf("\nMenu:\n");
 		printf("1. Gerenciar Pontos\n");
-		printf("2. Gerenciar Rotas\n");
+		printf("2. Gerenciar Rodovias\n");
 		printf("3. Gerenciar Onibus\n");
 		printf("4. Definir Roteiro\n");
 		printf("5. Exportar JSON\n");
