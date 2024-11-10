@@ -6,73 +6,32 @@
 #include <string.h>
 
 #include "./file/reader.c"
+#include "./file/exporter.c"
 #include "./views/list.c"
 #include "types.h"
 
 void init(int lerArquivo) {
-	int i, j, k;
 
-	printf("# Iniciando variaveis...\n");
+	const char *nome_arquivo = "./config/data.json";
+	const char *nome_arquivo_exportacao = "./output/resultado_grafo.json";
+	char *json_string = carregar_arquivo_json(nome_arquivo);
 
-	// Aloca os vetores e matrizes
-	frota = (Onibus *)malloc(MAX_SIZE * sizeof(Onibus));
-	pontos = (Ponto *)malloc(MAX_SIZE * sizeof(Ponto));
-	rotas = (Rota *)malloc(MAX_SIZE * sizeof(Rota));
-	percursos = (Percurso *)malloc(MAX_SIZE * sizeof(Percurso));
+	if (json_string) {
+	Grafo *grafo = parse_json_para_grafo(json_string);
+	exibirLista(grafo);
+	exportar_grafo(grafo, nome_arquivo_exportacao);
 
-	indices.indiceFrota = 0;
-	indices.indicePercurso = 0;
-	indices.indicePonto = 0;
-	indices.indiceRota = 0;
-
-	for (i = 0; i < MAX_SIZE; i++) {
-		strcpy(rotas[i].nome, "[A definir]");
-		rotas[i].tempoPercurso = 0;
-		rotas[i].distancia = 0;
-	}
-
-	for (i = 0; i < MAX_SIZE; i++) {
-		percursos[i].rotas = malloc(MAX_SIZE * sizeof(int));
-
-		for (j = 0; j < MAX_SIZE; j++) {
-			percursos[i].rotas[j] = malloc(MAX_SIZE * sizeof(int));
-		}
-	}
-
-	for (i = 0; i < MAX_SIZE; i++) {
-		frota[i].autonomia = 0.0;
-		frota[i].capacidadeCombustivel = 0.0;
-		frota[i].lotacaoAtual = 0;
-		frota[i].lotacaoMaxima = 0;
-		strcpy(frota[i].nome, "[A definir]");
-
-		pontos[i].lat = 0;
-		pontos[i].lng = 0;
-		pontos[i].eGaragem = false;
-		strcpy(pontos[i].endereco, "[A definir]");
-
-		for (j = 0; j < MAX_SIZE; j++) {
-			for (k = 0; k < MAX_SIZE; k++) {
-				percursos[i].rotas[j][k] = -1;
-				percursos[i].rotas[j][k] = -1;
-			}
-		}
-	}
-
-	printf("# Variaveis inicializadas com sucesso...\n");
-
-	if (lerArquivo == 1) {
-		printf("# Carregando arquivo...\n");
-		initArquivo();
-		printf("# Arquivo carregado com sucesso...\n");
+	free(json_string);
+	liberar_grafo(grafo);
 	}
 }
 
 void limparTela() {
-#ifdef _WIN32
-	system("cls");
-#else
-	system("clear");
-#endif
-	return;
+
+	#ifdef _WIN32
+		system("cls");
+	#else
+		system("clear");
+	#endif
+		return;
 }

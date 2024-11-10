@@ -5,19 +5,14 @@
 
 #include "../types.h"
 
-void exibirMatriz(int indicePercurso) {
-	if (indicePercurso < 0 || indicePercurso >= MAX_SIZE) {
-		printf("Indice inválido (%d)\n", indicePercurso);
-		return;
-	}
-
-	printf("%s\n", frota[indicePercurso].nome);
-
-	int i, j;
-	for (i = 0; i < MAX_SIZE; i++) {
-		for (j = 0; j < MAX_SIZE; j++) {
-			printf("%3d ", percursos[indicePercurso].rotas[i][j]);
-		}
-		printf("\n");
-	}
+void exibirLista(Grafo *grafo) {
+    for (int i = 0; i < grafo->quant_vertices; i++) {
+        printf("[%d] Vertice %s:" , i , grafo->vertices[i].endereco);
+        Aresta *aresta = grafo->vertices[i].lista_adj;
+        while (aresta) {
+            printf(" -> [%d] %s (Distancia: %d)", aresta->destino, grafo->vertices[aresta->destino].endereco, aresta->distancia);
+            aresta = aresta->proxima;
+        }
+        printf("\n");
+    }
 }

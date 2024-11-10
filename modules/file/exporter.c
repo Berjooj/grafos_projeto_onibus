@@ -1,112 +1,68 @@
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
+#include <direct.h>
 
 #include "../../dependencies/cJSON/cJSON.h"
 #include "../types.h"
 
-void exportarJson() {
-	int i, j, k;
-	FILE* arquivo = fopen("config/exported_data.json", "w");
+void criar_diretorio(const char *caminho) {
 
-	if (arquivo == NULL) {
-		printf("Erro ao abrir o arquivo para escrita!\n");
-		return;
-	}
+    struct stat st = {0};
+    if (stat(caminho, &st) == -1) {
+        #ifdef _WIN32
+            _mkdir(caminho);  // Windows
+        #else
+            mkdir(caminho, 0700);  // Linux
+        #endif
+    }
+}
 
-	fprintf(arquivo, "{\n");
+void exportar_grafo(Grafo *grafo, const char *nome_arquivo) {
+	
+    char diretorio[256];
+    strncpy(diretorio, nome_arquivo, sizeof(diretorio));
+    char *fim_linha = strrchr(diretorio, '/');
+    if (fim_linha != NULL) {
+        *fim_linha = '\0';
+        criar_diretorio(diretorio);
+    }
 
-	// Exportar Onibus
-	fprintf(arquivo, "\t\"onibus\": [\n");
-	for (i = 0; i <= indices.indiceFrota; i++) {
-		fprintf(arquivo, "\t\t{\n");
-		fprintf(arquivo, "\t\t\t\"nome\": \"%s\",\n", frota[i].nome);
-		fprintf(arquivo, "\t\t\t\"lotacaoMaxima\": %d,\n", frota[i].lotacaoMaxima);
-		fprintf(arquivo, "\t\t\t\"lotacaoAtual\": %d,\n", frota[i].lotacaoAtual);
-		fprintf(arquivo, "\t\t\t\"capacidadeCombustivel\": %.1f,\n", frota[i].capacidadeCombustivel);
-		fprintf(arquivo, "\t\t\t\"autonomia\": %.1f\n", frota[i].autonomia);
+    cJSON *json_grafo = cJSON_CreateObject();
+    cJSON *json_vertices = cJSON_CreateArray();
 
-		if (i == indices.indiceFrota) {
-			fprintf(arquivo, "\t\t}\n");
-		} else {
-			fprintf(arquivo, "\t\t},\n");
-		}
-	}
-	fprintf(arquivo, "\t],\n");
+    for (int i = 0; i < grafo->quant_vertices; i++) {
+        cJSON *json_no = cJSON_CreateObject();
+        cJSON_AddStringToObject(json_no, "endereco", grafo->vertices[i].endereco);
 
-	// Exportar Rotas
-	fprintf(arquivo, "\t\"rotas\": [\n");
-	for (i = 0; i <= indices.indiceRota; i++) {
-		fprintf(arquivo, "\t\t{\n");
-		fprintf(arquivo, "\t\t\t\"nome\": \"%s\",\n", rotas[i].nome);
-		fprintf(arquivo, "\t\t\t\"distancia\": %.1f,\n", rotas[i].distancia);
-		fprintf(arquivo, "\t\t\t\"tempoPercurso\": %d\n", rotas[i].tempoPercurso);
+        cJSON *json_arestas = cJSON_CreateArray();
+        Aresta *aresta = grafo->vertices[i].lista_adj;
 
-		if (i == indices.indiceRota) {
-			fprintf(arquivo, "\t\t}\n");
-		} else {
-			fprintf(arquivo, "\t\t},\n");
-		}
-	}
-	fprintf(arquivo, "\t],\n");
+        while (aresta) {
+            cJSON *json_aresta = cJSON_CreateObject();
+            cJSON_AddStringToObject(json_aresta, "destino", grafo->vertices[aresta->destino].endereco);
+            cJSON_AddNumberToObject(json_aresta, "distancia", aresta->distancia);
 
-	// Exportar Pontos
-	fprintf(arquivo, "\t\"pontos\": [\n");
-	for (i = 0; i <= indices.indicePonto; i++) {
-		fprintf(arquivo, "\t\t{\n");
-		fprintf(arquivo, "\t\t\t\"endereco\": \"%s\",\n", pontos[i].endereco);
-		fprintf(arquivo, "\t\t\t\"eGaragem\": %s,\n", pontos[i].eGaragem ? "true" : "false");
-		fprintf(arquivo, "\t\t\t\"lat\": %.5f,\n", pontos[i].lat);
-		fprintf(arquivo, "\t\t\t\"lng\": %.5f\n", pontos[i].lng);
+            cJSON_AddItemToArray(json_arestas, json_aresta);
+            aresta = aresta->proxima;
+        }
 
-		if (i == indices.indicePonto) {
-			fprintf(arquivo, "\t\t}\n");
-		} else {
-			fprintf(arquivo, "\t\t},\n");
-		}
-	}
-	fprintf(arquivo, "\t],\n");
+        cJSON_AddItemToObject(json_no, "adjacentes", json_arestas);
+        cJSON_AddItemToArray(json_vertices, json_no);
+    }
 
-	// Exportar Percurso
-	fprintf(arquivo, "\t\"percurso\": [\n");
-	for (i = 0; i <= indices.indiceFrota; i++) {
-		fprintf(arquivo, "\t\t{\n");
-		fprintf(arquivo, "\t\t\t\"linha\": \"%s\",\n", frota[i].nome);
-		fprintf(arquivo, "\t\t\t\"rotas\": [\n");
+    cJSON_AddItemToObject(json_grafo, "vertices", json_vertices);
 
-		for (j = 0; j <= indices.indicePonto; j++) {
-			for (k = 0; k <= indices.indicePonto; k++) {
-				if (percursos[i].rotas[j][k] == -1) {
-					continue;
-				}
+    FILE *arquivo = fopen(nome_arquivo, "w");
+    if (arquivo) {
+        char *json_string = cJSON_Print(json_grafo);
+        fprintf(arquivo, "%s\n", json_string);
+        fclose(arquivo);
+        free(json_string);
+    } else {
+        perror("Erro ao abrir o arquivo para exportação");
+    }
 
-				fprintf(arquivo, "\t\t\t\t{\n");
-				fprintf(arquivo, "\t\t\t\t\t\"origem\": \"%s\",\n", pontos[j].endereco);
-				fprintf(arquivo, "\t\t\t\t\t\"destino\": \"%s\",\n", pontos[k].endereco);
-				fprintf(arquivo, "\t\t\t\t\t\"rota\": \"%s\"\n", rotas[percursos[i].rotas[j][k]].nome);
-
-				if (j == indices.indicePonto) {
-					fprintf(arquivo, "\t\t\t\t}\n");
-				} else {
-					fprintf(arquivo, "\t\t\t\t},\n");
-				}
-			}
-		}
-
-		fprintf(arquivo, "\t\t\t]\n");
-
-		if (i == indices.indiceFrota) {
-			fprintf(arquivo, "\t\t}\n");
-		} else {
-			fprintf(arquivo, "\t\t},\n");
-		}
-	}
-	fprintf(arquivo, "\t]\n");
-
-	fprintf(arquivo, "}\n");
-
-	fclose(arquivo);
-	printf("JSON exportado com sucesso para 'config/exported_data.json'!\n");
-	system("pause");
+    cJSON_Delete(json_grafo);
 }

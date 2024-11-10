@@ -8,179 +8,141 @@
 #include "../../dependencies/cJSON/cJSON.h"
 #include "../types.h"
 
-void parseOnibus(cJSON *onibusArray) {
-	int i;
-	int qtd = cJSON_GetArraySize(onibusArray);
-
-	for (i = 0; i < qtd; i++) {
-		if (qtd > MAX_SIZE) {
-			printf("Onibus nao incluido, matriz sem espaco!\n");
-			break;
-		}
-
-		cJSON *onibusItem = cJSON_GetArrayItem(onibusArray, i);
-		cJSON *nome = cJSON_GetObjectItem(onibusItem, "nome");
-		cJSON *lotacaoMaxima = cJSON_GetObjectItem(onibusItem, "lotacaoMaxima");
-		cJSON *lotacaoAtual = cJSON_GetObjectItem(onibusItem, "lotacaoAtual");
-		cJSON *capacidadeCombustivel = cJSON_GetObjectItem(onibusItem, "capacidadeCombustivel");
-		cJSON *autonomia = cJSON_GetObjectItem(onibusItem, "autonomia");
-
-		strcpy(frota[i].nome, nome->valuestring);
-		frota[i].lotacaoMaxima = lotacaoMaxima->valueint;
-		frota[i].lotacaoAtual = lotacaoAtual->valueint;
-		frota[i].capacidadeCombustivel = (float)capacidadeCombustivel->valuedouble;
-		frota[i].autonomia = (float)autonomia->valuedouble;
-
-		indices.indiceFrota = i;
-	}
+Grafo* criar_grafo(int capacidade) {
+    Grafo *grafo = (Grafo *)malloc(sizeof(Grafo));
+    grafo->vertices = (Vertice *)malloc(sizeof(Vertice) * capacidade);
+    grafo->quant_vertices = 0;
+    grafo->capacidade = capacidade;
+    return grafo;
 }
 
-void parseRotas(cJSON *rotasArray) {
-	int i;
-	int qtd = cJSON_GetArraySize(rotasArray);
-
-	for (i = 0; i < qtd; i++) {
-		if (qtd > MAX_SIZE) {
-			printf("Rota nao incluida, matriz sem espaco!\n");
-			break;
-		}
-
-		cJSON *rotaItem = cJSON_GetArrayItem(rotasArray, i);
-		cJSON *nome = cJSON_GetObjectItem(rotaItem, "nome");
-		cJSON *distancia = cJSON_GetObjectItem(rotaItem, "distancia");
-		cJSON *tempoPercurso = cJSON_GetObjectItem(rotaItem, "tempoPercurso");
-
-		strcpy(rotas[i].nome, nome->valuestring);
-		rotas[i].distancia = distancia->valuedouble;
-		rotas[i].tempoPercurso = tempoPercurso->valueint;
-
-		indices.indiceRota = i;
-	}
+void liberar_grafo(Grafo *grafo) {
+    for (int i = 0; i < grafo->quant_vertices; i++) {
+        Aresta *aresta = grafo->vertices[i].lista_adj;
+        while (aresta) {
+            Aresta *temp = aresta;
+            aresta = aresta->proxima;
+            free(temp);
+        }
+    }
+    free(grafo->vertices);
+    free(grafo);
 }
 
-void parsePontos(cJSON *pontosArray) {
-	int i;
-	int qtd = cJSON_GetArraySize(pontosArray);
+int encontrar_indice_vertice(Grafo *grafo, const char *endereco) {
 
-	for (i = 0; i < qtd; i++) {
-		if (qtd > MAX_SIZE) {
-			printf("Ponto nao incluido, matriz sem espaco!\n");
-			break;
-		}
-
-		cJSON *pontoItem = cJSON_GetArrayItem(pontosArray, i);
-		cJSON *endereco = cJSON_GetObjectItem(pontoItem, "endereco");
-		cJSON *eGaragem = cJSON_GetObjectItem(pontoItem, "eGaragem");
-		cJSON *lat = cJSON_GetObjectItem(pontoItem, "lat");
-		cJSON *lng = cJSON_GetObjectItem(pontoItem, "lng");
-
-		strcpy(pontos[i].endereco, endereco->valuestring);
-		pontos[i].eGaragem = eGaragem->valueint;
-		pontos[i].lat = lat->valuedouble;
-		pontos[i].lng = lng->valuedouble;
-
-		indices.indicePonto = i;
-	}
+    for (int i = 0; i < grafo->quant_vertices; i++) {
+        if (strcmp(grafo->vertices[i].endereco, endereco) == 0) {
+            return i;
+        }
+    }
+    return -1;
 }
 
-void parsePercursos(cJSON *percursoArray) {
-	int i, j, k;
-	int qtd = cJSON_GetArraySize(percursoArray);
+int adicionar_vertice(Grafo *grafo, const char *endereco) {
 
-	for (i = 0; i < qtd; i++) {
-		if (qtd > MAX_SIZE) {
-			printf("Percurso nao incluido, matriz sem espaco!\n");
-			break;
-		}
-
-		cJSON *percursoItem = cJSON_GetArrayItem(percursoArray, i);
-		cJSON *linha = cJSON_GetObjectItem(percursoItem, "linha");
-		cJSON *rotasJson = cJSON_GetObjectItem(percursoItem, "rotas");
-
-		int indiceOnibus = -1;
-
-		for (j = 0; j <= indices.indiceFrota; j++) {
-			if (strcmp(frota[j].nome, linha->valuestring) == 0) {
-				indiceOnibus = j;
-				break;
-			}
-		}
-
-		if (indiceOnibus == -1) {
-			printf("Nao foi possivel carregar o percurso '%s'\n", linha->valuestring);
-			return;
-		}
-
-		int qtdRotas = cJSON_GetArraySize(rotasJson);
-		for (j = 0; j < qtdRotas; j++) {
-			cJSON *rota = cJSON_GetArrayItem(rotasJson, j);
-			cJSON *origem = cJSON_GetObjectItem(rota, "origem");
-			cJSON *destino = cJSON_GetObjectItem(rota, "destino");
-			cJSON *_rota = cJSON_GetObjectItem(rota, "rota");
-
-			int indiceOrigem = -1, indiceDestino = -1, indiceRota = -1;
-
-			// Procurando o índice da origem no array de pontos
-			for (k = 0; k < MAX_SIZE; k++) {
-				if (strcmp(pontos[k].endereco, origem->valuestring) == 0)
-					indiceOrigem = k;
-
-				if (strcmp(pontos[k].endereco, destino->valuestring) == 0)
-					indiceDestino = k;
-
-				if (strcmp(rotas[k].nome, _rota->valuestring) == 0)
-					indiceRota = k;
-			}
-
-			// Atualizando a matriz de adjacência com os índices das pontos
-			if (indiceOrigem != -1 && indiceDestino != -1 && indiceRota != -1)
-				percursos[indiceOnibus].rotas[indiceOrigem][indiceDestino] = indiceRota;
-			else
-				printf("Erro: Rota nao encontrada (%s -> %s, %s)\n", origem->valuestring, destino->valuestring, _rota->valuestring);
-		}
-
-		indices.indicePercurso = i;
-	}
+    int indice = encontrar_indice_vertice(grafo, endereco);
+    if (indice == -1) {
+        if (grafo->quant_vertices == grafo->capacidade) {
+            grafo->capacidade *= 2;
+            grafo->vertices = (Vertice *)realloc(grafo->vertices, sizeof(Vertice) * grafo->capacidade);
+        }
+        strncpy(grafo->vertices[grafo->quant_vertices].endereco, endereco, 150);
+        grafo->vertices[grafo->quant_vertices].lista_adj = NULL;
+        return grafo->quant_vertices++;
+    }
+    return indice;
 }
 
-void initArquivo() {
-	FILE *arquivo = fopen("./config/data.json", "r");
+int aresta_existe(Grafo *grafo, int indice_origem, int indice_destino) {
 
-	if (arquivo == NULL) {
-		printf("Erro ao abrir o arquivo JSON.\n");
-		return;
-	}
+    Aresta *aresta = grafo->vertices[indice_origem].lista_adj;
+    while (aresta) {
+        if (aresta->destino == indice_destino) {
+            return 1;
+        }
+        aresta = aresta->proxima;
+    }
+    return 0;
+}
 
-	// Converte o arquivo em texto para objeto da lib
-	fseek(arquivo, 0, SEEK_END);
-	long tamanhoArquivo = ftell(arquivo);
+void adicionar_aresta(Grafo *grafo, const char *origem, const char *destino, int distancia) {
 
-	fseek(arquivo, 0, SEEK_SET);
-	char *data = malloc(tamanhoArquivo + 1);
+    int indice_origem = adicionar_vertice(grafo, origem);
+    int indice_destino = adicionar_vertice(grafo, destino);
 
-	fread(data, 1, tamanhoArquivo, arquivo);
-	fclose(arquivo);
+    if (aresta_existe(grafo, indice_origem, indice_destino)) {
+        return;
+    }
 
-	cJSON *json = cJSON_Parse(data);
-	if (!json) {
-		printf("Erro ao analisar o JSON.\n");
-		return;
-	}
+    Aresta *nova_aresta = (Aresta *)malloc(sizeof(Aresta));
+    if (!nova_aresta) {
+        fprintf(stderr, "Erro ao alocar memória para a aresta.\n");
+        exit(EXIT_FAILURE);
+    }
 
-	// Converte o JSON para o array de struct
-	cJSON *onibusArray = cJSON_GetObjectItem(json, "onibus");
-	parseOnibus(onibusArray);
+    nova_aresta->destino = indice_destino;
+    nova_aresta->distancia = distancia;
+    nova_aresta->proxima = grafo->vertices[indice_origem].lista_adj;
+    grafo->vertices[indice_origem].lista_adj = nova_aresta;
+}
 
-	cJSON *rotasArray = cJSON_GetObjectItem(json, "rotas");
-	parseRotas(rotasArray);
+char* carregar_arquivo_json(const char *nome_arquivo) {
 
-	cJSON *pontosArray = cJSON_GetObjectItem(json, "pontos");
-	parsePontos(pontosArray);
+    FILE *arquivo = fopen(nome_arquivo, "r");
+    if (!arquivo) {
+        fprintf(stderr, "Erro ao abrir o arquivo %s\n", nome_arquivo);
+        return NULL;
+    }
 
-	cJSON *percursoArray = cJSON_GetObjectItem(json, "percurso");
-	parsePercursos(percursoArray);
+    fseek(arquivo, 0, SEEK_END);
+    long tamanho_arquivo = ftell(arquivo);
+    fseek(arquivo, 0, SEEK_SET);
 
-	// Libera a memória
-	cJSON_Delete(json);
-	free(data);
+    char *conteudo = (char *)malloc(tamanho_arquivo + 1);
+    if (!conteudo) {
+        fprintf(stderr, "Erro ao alocar memória\n");
+        fclose(arquivo);
+        return NULL;
+    }
+
+    size_t bytesLidos = fread(conteudo, 1, tamanho_arquivo, arquivo);
+    conteudo[bytesLidos] = '\0';
+
+    fclose(arquivo);
+    return conteudo;
+}
+
+Grafo* parse_json_para_grafo(const char *json_string) {
+
+    Grafo *grafo = criar_grafo(10);
+    cJSON *json = cJSON_Parse(json_string);
+
+    if (!json) {
+        fprintf(stderr, "Erro ao ler JSON\n");
+        exit(EXIT_FAILURE);
+    }
+
+    cJSON *pontos_json = cJSON_GetObjectItemCaseSensitive(json, "pontos");
+    cJSON *ponto;
+
+    cJSON_ArrayForEach(ponto, pontos_json) {
+        const char *endereco = cJSON_GetObjectItemCaseSensitive(ponto, "endereco")->valuestring;
+        adicionar_vertice(grafo, endereco);
+    }
+
+    cJSON *rotas_json = cJSON_GetObjectItemCaseSensitive(json, "rotas");
+    cJSON *rota;
+
+    cJSON_ArrayForEach(rota, rotas_json) {
+		
+        const char *origem = cJSON_GetObjectItemCaseSensitive(rota, "origem")->valuestring;
+        const char *destino = cJSON_GetObjectItemCaseSensitive(rota, "destino")->valuestring;
+        int distancia = cJSON_GetObjectItemCaseSensitive(rota, "distancia")->valueint;
+
+        adicionar_aresta(grafo, origem, destino, distancia);
+    }
+
+    cJSON_Delete(json);
+    return grafo;
 }
