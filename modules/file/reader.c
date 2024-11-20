@@ -1,146 +1,168 @@
 #include "reader.h"
-
-#include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "../../dependencies/cJSON/cJSON.h"
 #include "../types.h"
 
-Grafo* criar_grafo(int capacidade) {
-    Grafo *grafo = (Grafo *)malloc(sizeof(Grafo));
-    grafo->vertices = (Vertice *)malloc(sizeof(Vertice) * capacidade);
-    grafo->quant_vertices = 0;
-    grafo->capacidade = capacidade;
+Grafo* criar_grafo(int numVertices) {
+
+    Grafo *grafo = (Grafo*)malloc(sizeof(Grafo));
+    grafo->numVertices = numVertices;
+    grafo->lista = (ListaAdj**)malloc(numVertices * sizeof(ListaAdj*));
+
+    for (int i = 0; i < numVertices; i++) {
+        grafo->lista[i] = (ListaAdj*)malloc(sizeof(ListaAdj));
+        grafo->lista[i]->head = NULL;
+    }
+
     return grafo;
 }
 
 void liberar_grafo(Grafo *grafo) {
-    for (int i = 0; i < grafo->quant_vertices; i++) {
-        Aresta *aresta = grafo->vertices[i].lista_adj;
-        while (aresta) {
-            Aresta *temp = aresta;
-            aresta = aresta->proxima;
+
+    for (int i = 0; i < grafo->numVertices; i++) {
+        Vertice *atual = grafo->lista[i]->head;
+        while (atual != NULL) {
+            Vertice *temp = atual;
+            atual = atual->prox;
             free(temp);
         }
+        free(grafo->lista[i]);
     }
-    free(grafo->vertices);
+    free(grafo->lista);
     free(grafo);
 }
 
-int encontrar_indice_vertice(Grafo *grafo, const char *endereco) {
+int buscar_vertice_por_endereco(Grafo *grafo, const char *endereco) {
 
-    for (int i = 0; i < grafo->quant_vertices; i++) {
-        if (strcmp(grafo->vertices[i].endereco, endereco) == 0) {
+    for (int i = 0; i < grafo->numVertices; i++) {
+        if (grafo->lista[i]->head != NULL && strcmp(grafo->lista[i]->head->endereco, endereco) == 0) {
             return i;
         }
     }
     return -1;
 }
 
-int adicionar_vertice(Grafo *grafo, const char *endereco) {
+Vertice* adicionar_vertice(Grafo *grafo, const char *endereco, int vertex) {
 
-    int indice = encontrar_indice_vertice(grafo, endereco);
-    if (indice == -1) {
-        if (grafo->quant_vertices == grafo->capacidade) {
-            grafo->capacidade *= 2;
-            grafo->vertices = (Vertice *)realloc(grafo->vertices, sizeof(Vertice) * grafo->capacidade);
+    Vertice *novo_vertice = (Vertice*)malloc(sizeof(Vertice));
+    novo_vertice->vertex = vertex;
+    novo_vertice->distancia = 0;
+
+    strncpy(novo_vertice->endereco, endereco, 150);
+    novo_vertice->endereco[sizeof(novo_vertice->endereco) - 1] = '\0';
+
+    novo_vertice->prox = NULL;
+
+    if (grafo->lista[vertex]->head == NULL) {
+        grafo->lista[vertex]->head = novo_vertice;
+    } else {
+        Vertice *atual = grafo->lista[vertex]->head;
+        while (atual->prox != NULL) {
+            atual = atual->prox;
         }
-        strncpy(grafo->vertices[grafo->quant_vertices].endereco, endereco, 150);
-        grafo->vertices[grafo->quant_vertices].lista_adj = NULL;
-        return grafo->quant_vertices++;
+        atual->prox = novo_vertice;
     }
-    return indice;
+
+    return novo_vertice;
 }
 
-int aresta_existe(Grafo *grafo, int indice_origem, int indice_destino) {
+bool aresta_existe(Grafo *grafo, int origem, int destino) {
 
-    Aresta *aresta = grafo->vertices[indice_origem].lista_adj;
-    while (aresta) {
-        if (aresta->destino == indice_destino) {
-            return 1;
+    Vertice *atual = grafo->lista[origem]->head;
+    while (atual != NULL) {
+        if (atual->vertex == destino) {
+            return true;
         }
-        aresta = aresta->proxima;
+        atual = atual->prox;
     }
-    return 0;
+    return false;
 }
 
-void adicionar_aresta(Grafo *grafo, const char *origem, const char *destino, int distancia) {
-
-    int indice_origem = adicionar_vertice(grafo, origem);
-    int indice_destino = adicionar_vertice(grafo, destino);
-
-    if (aresta_existe(grafo, indice_origem, indice_destino)) {
+void adicionar_aresta(Grafo *grafo, int origem, int destino, int distancia) {
+    if (origem == destino) {
         return;
     }
 
-    Aresta *nova_aresta = (Aresta *)malloc(sizeof(Aresta));
-    if (!nova_aresta) {
-        fprintf(stderr, "Erro ao alocar memória para a aresta.\n");
-        exit(EXIT_FAILURE);
-    }
+    if (!aresta_existe(grafo, origem, destino)) {
+        Vertice *novo_vertice = (Vertice*)malloc(sizeof(Vertice));
+        novo_vertice->vertex = destino;
+        novo_vertice->distancia = distancia;
+        novo_vertice->prox = NULL;
 
-    nova_aresta->destino = indice_destino;
-    nova_aresta->distancia = distancia;
-    nova_aresta->proxima = grafo->vertices[indice_origem].lista_adj;
-    grafo->vertices[indice_origem].lista_adj = nova_aresta;
+        strncpy(novo_vertice->endereco, grafo->lista[destino]->head->endereco, 150);
+        novo_vertice->endereco[sizeof(novo_vertice->endereco) - 1] = '\0';
+
+        if (grafo->lista[origem]->head == NULL) {
+            grafo->lista[origem]->head = novo_vertice;
+        } else {
+            Vertice *atual = grafo->lista[origem]->head;
+            while (atual->prox != NULL) {
+                atual = atual->prox;
+            }
+            atual->prox = novo_vertice;
+        }
+    }
 }
 
-char* carregar_arquivo_json(const char *nome_arquivo) {
+char* carregar_arquivo_json(const char *filename) {
 
-    FILE *arquivo = fopen(nome_arquivo, "r");
+    FILE *arquivo = fopen(filename, "r");
     if (!arquivo) {
-        fprintf(stderr, "Erro ao abrir o arquivo %s\n", nome_arquivo);
+        perror("Erro ao abrir o arquivo");
         return NULL;
     }
 
     fseek(arquivo, 0, SEEK_END);
-    long tamanho_arquivo = ftell(arquivo);
+    long tamanho = ftell(arquivo);
     fseek(arquivo, 0, SEEK_SET);
 
-    char *conteudo = (char *)malloc(tamanho_arquivo + 1);
-    if (!conteudo) {
-        fprintf(stderr, "Erro ao alocar memória\n");
-        fclose(arquivo);
-        return NULL;
-    }
-
-    size_t bytesLidos = fread(conteudo, 1, tamanho_arquivo, arquivo);
-    conteudo[bytesLidos] = '\0';
-
+    char *conteudo = (char*)malloc(tamanho + 1);
+    fread(conteudo, 1, tamanho, arquivo);
+    conteudo[tamanho] = '\0';
     fclose(arquivo);
+
     return conteudo;
 }
 
 Grafo* parse_json_para_grafo(const char *json_string) {
 
-    Grafo *grafo = criar_grafo(10);
     cJSON *json = cJSON_Parse(json_string);
-
     if (!json) {
-        fprintf(stderr, "Erro ao ler JSON\n");
-        exit(EXIT_FAILURE);
+        printf("Erro ao parsear o JSON\n");
+        return NULL;
     }
 
-    cJSON *pontos_json = cJSON_GetObjectItemCaseSensitive(json, "pontos");
-    cJSON *ponto;
-
-    cJSON_ArrayForEach(ponto, pontos_json) {
-        const char *endereco = cJSON_GetObjectItemCaseSensitive(ponto, "endereco")->valuestring;
-        adicionar_vertice(grafo, endereco);
+    cJSON *vertices = cJSON_GetObjectItem(json, "vertices");
+    if (!vertices || !cJSON_IsArray(vertices)) {
+        printf("Erro: 'vertices' não encontrado ou não é um array\n");
+        cJSON_Delete(json);
+        return NULL;
     }
 
-    cJSON *rotas_json = cJSON_GetObjectItemCaseSensitive(json, "rotas");
-    cJSON *rota;
+    int numVertices = cJSON_GetArraySize(vertices);
+    Grafo *grafo = criar_grafo(numVertices);
 
-    cJSON_ArrayForEach(rota, rotas_json) {
-		
-        const char *origem = cJSON_GetObjectItemCaseSensitive(rota, "origem")->valuestring;
-        const char *destino = cJSON_GetObjectItemCaseSensitive(rota, "destino")->valuestring;
-        int distancia = cJSON_GetObjectItemCaseSensitive(rota, "distancia")->valueint;
+    cJSON *vertice;
+    int id = 0;
+    cJSON_ArrayForEach(vertice, vertices) {
+        const char *endereco = cJSON_GetObjectItem(vertice, "endereco")->valuestring;
+        adicionar_vertice(grafo, endereco, id++);
+    }
 
-        adicionar_aresta(grafo, origem, destino, distancia);
+    cJSON *rotas = cJSON_GetObjectItem(json, "rotas");
+    if (rotas && cJSON_IsArray(rotas)) {
+        cJSON *rota;
+        cJSON_ArrayForEach(rota, rotas) {
+            int origem_id = cJSON_GetObjectItem(rota, "origem")->valueint;
+            int destino_id = cJSON_GetObjectItem(rota, "destino")->valueint;
+            int distancia = cJSON_GetObjectItem(rota, "distancia")->valueint;
+
+            if (origem_id != destino_id) {
+                adicionar_aresta(grafo, origem_id, destino_id, distancia);
+            }
+        }
     }
 
     cJSON_Delete(json);

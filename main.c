@@ -5,7 +5,7 @@
 
 int main() {
 
-	limparTela();
+	// limparTela();
 
 	init(1);
 

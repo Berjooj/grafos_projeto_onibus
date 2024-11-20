@@ -1,8 +1,5 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 #include <sys/stat.h>
-#include <direct.h>
+#include <sys/types.h>
 
 #include "../../dependencies/cJSON/cJSON.h"
 #include "../types.h"
@@ -20,49 +17,48 @@ void criar_diretorio(const char *caminho) {
 }
 
 void exportar_grafo(Grafo *grafo, const char *nome_arquivo) {
-	
-    char diretorio[256];
-    strncpy(diretorio, nome_arquivo, sizeof(diretorio));
-    char *fim_linha = strrchr(diretorio, '/');
-    if (fim_linha != NULL) {
-        *fim_linha = '\0';
-        criar_diretorio(diretorio);
-    }
 
-    cJSON *json_grafo = cJSON_CreateObject();
-    cJSON *json_vertices = cJSON_CreateArray();
+    const char *diretorio = "./output";
+    criar_diretorio(diretorio);
 
-    for (int i = 0; i < grafo->quant_vertices; i++) {
-        cJSON *json_no = cJSON_CreateObject();
-        cJSON_AddStringToObject(json_no, "endereco", grafo->vertices[i].endereco);
+    cJSON *json = cJSON_CreateObject();
+    cJSON *vertices = cJSON_CreateArray();
+    cJSON *rotas = cJSON_CreateArray();
 
-        cJSON *json_arestas = cJSON_CreateArray();
-        Aresta *aresta = grafo->vertices[i].lista_adj;
-
-        while (aresta) {
-            cJSON *json_aresta = cJSON_CreateObject();
-            cJSON_AddStringToObject(json_aresta, "destino", grafo->vertices[aresta->destino].endereco);
-            cJSON_AddNumberToObject(json_aresta, "distancia", aresta->distancia);
-
-            cJSON_AddItemToArray(json_arestas, json_aresta);
-            aresta = aresta->proxima;
+    for (int i = 0; i < grafo->numVertices; i++) {
+        if (grafo->lista[i]->head != NULL) {
+            cJSON *vertice = cJSON_CreateObject();
+            cJSON_AddNumberToObject(vertice, "id", i);
+            cJSON_AddStringToObject(vertice, "endereco", grafo->lista[i]->head->endereco);
+            cJSON_AddItemToArray(vertices, vertice);
         }
-
-        cJSON_AddItemToObject(json_no, "adjacentes", json_arestas);
-        cJSON_AddItemToArray(json_vertices, json_no);
     }
+    cJSON_AddItemToObject(json, "vertices", vertices);
 
-    cJSON_AddItemToObject(json_grafo, "vertices", json_vertices);
+    for (int i = 0; i < grafo->numVertices; i++) {
+        Vertice *atual = grafo->lista[i]->head;
+        while (atual != NULL) {
+            if (atual->prox != NULL) {
+                cJSON *rota = cJSON_CreateObject();
+                cJSON_AddNumberToObject(rota, "origem", i);
+                cJSON_AddNumberToObject(rota, "destino", atual->vertex);
+                cJSON_AddNumberToObject(rota, "distancia", atual->distancia);
+                cJSON_AddItemToArray(rotas, rota);
+            }
+            atual = atual->prox;
+        }
+    }
+    cJSON_AddItemToObject(json, "rotas", rotas);
 
+    char *conteudo_json = cJSON_Print(json);
     FILE *arquivo = fopen(nome_arquivo, "w");
     if (arquivo) {
-        char *json_string = cJSON_Print(json_grafo);
-        fprintf(arquivo, "%s\n", json_string);
+        fprintf(arquivo, "%s", conteudo_json);
         fclose(arquivo);
-        free(json_string);
     } else {
-        perror("Erro ao abrir o arquivo para exportação");
+        perror("Erro ao criar o arquivo de exportação");
     }
 
-    cJSON_Delete(json_grafo);
+    cJSON_Delete(json);
+    free(conteudo_json);
 }

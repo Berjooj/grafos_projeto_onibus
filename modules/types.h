@@ -3,27 +3,20 @@
 #ifndef TYPES_H
 #define TYPES_H
 
-typedef struct Aresta {
-    int destino;
-    int distancia;
-    struct Aresta *proxima;
-} Aresta;
-
 typedef struct Vertice {
+    int vertex;
+    int distancia;
     char endereco[150];
-    Aresta *lista_adj;
+    struct Vertice* prox;
 } Vertice;
 
-typedef struct Grafo {
-    Vertice *vertices;
-    int quant_vertices;
-    int capacidade;
-} Grafo;
+typedef struct ListaAdj {
+    struct Vertice* head;
+} ListaAdj;
 
-int adicionar_vertice(Grafo *grafo, const char *endereco);
-void adicionar_aresta(Grafo *grafo, const char *origem, const char *destino, int distancia);
-int encontrar_indice_vertice(Grafo *grafo, const char *endereco);
-void liberar_grafo(Grafo *grafo);
-Grafo* criar_grafo(int capacidade);
+typedef struct Grafo {
+    int numVertices;
+    struct ListaAdj ** lista;
+} Grafo;
 
 #endif

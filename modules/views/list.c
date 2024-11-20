@@ -2,17 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-
 #include "../types.h"
 
+#include <stdio.h>
+
 void exibirLista(Grafo *grafo) {
-    for (int i = 0; i < grafo->quant_vertices; i++) {
-        printf("[%d] Vertice %s:" , i , grafo->vertices[i].endereco);
-        Aresta *aresta = grafo->vertices[i].lista_adj;
-        while (aresta) {
-            printf(" -> [%d] %s (Distancia: %d)", aresta->destino, grafo->vertices[aresta->destino].endereco, aresta->distancia);
-            aresta = aresta->proxima;
+    for (int i = 0; i < grafo->numVertices; i++) {
+        printf("Vertice %d - %s): ", i, grafo->lista[i]->head->endereco);
+        Vertice *atual = grafo->lista[i]->head;
+        atual = atual->prox;
+        while (atual != NULL) {
+            printf("\n");
+            printf("    -> %d - %s (Distancia: %d) ", atual->vertex, atual->endereco, atual->distancia);
+            atual = atual->prox;
         }
-        printf("\n");
+        printf("\n\n");
     }
 }
