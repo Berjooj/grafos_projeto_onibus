@@ -13,6 +13,7 @@
 		"*.gitignore": "c",
 		"itinerary.h": "c",
 		"itinerarycontroller.h": "c",
-		"calculatorcontroller.h": "c"
+		"calculatorcontroller.h": "c",
+		"stat.h": "c"
 	}
 }

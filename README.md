@@ -16,7 +16,14 @@ Autores: Bernardo Moreira e Enzo Petry
    git clone https://github.com/Berjooj/grafos_projeto_onibus.git
    ```
 
-2. **Compilando**
+2. **Build**
+   ```bash
+   .\build.bat
+   ```
+
+### Build Manual
+
+1. **Compilando**
 
    ```bash
    cd grafos_projeto_onibus

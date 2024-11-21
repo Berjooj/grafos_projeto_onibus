@@ -1,0 +1,510 @@
+{
+    "vertices": [
+        {
+            "id": 0,
+            "endereco": "Agronomia Campus Ufrgs - Agronomia - Agronomia Porto Alegre - Rs Brasil"
+        },
+        {
+            "id": 1,
+            "endereco": "Lomba Do Pinheiro Bento Goncalves - Agronomia Porto Alegre - Rs 90650-002 Brasil"
+        },
+        {
+            "id": 2,
+            "endereco": "Agronomia Bento Goncalves - Agronomia Porto Alegre - Rs 90650-002 Brasil"
+        },
+        {
+            "id": 3,
+            "endereco": "Av Bento Goncalves 8824 - Agronomia Porto Alegre - Rs 91540-000 Brasil"
+        },
+        {
+            "id": 4,
+            "endereco": "Av Bento Goncalves 8426 - Agronomia Porto Alegre - Rs 91540-000 Brasil"
+        },
+        {
+            "id": 5,
+            "endereco": "Av Bento Goncalves - Agronomia Porto Alegre - Rs Brasil"
+        },
+        {
+            "id": 6,
+            "endereco": "Agronomia Bento Goncalves - Agronomia Porto Alegre - Rs 90160-091 Brasil"
+        },
+        {
+            "id": 7,
+            "endereco": "Estacao Sao Carlos - Agronomia Porto Alegre - Rs 91530-410 Brasil"
+        },
+        {
+            "id": 8,
+            "endereco": "Avenida Ipiranga 8990 Jardim Do Carvalho Porto Alegre - Rio Grande Do Sul 91440 Brasil"
+        },
+        {
+            "id": 9,
+            "endereco": "R Irma Ambrosio 177 - Jardim Carvalho Porto Alegre - Rs 91440-070 Brasil"
+        },
+        {
+            "id": 10,
+            "endereco": "Av Antonio De Carvalho 571 - Agronomia Porto Alegre - Rs 90160-092 Brasil"
+        },
+        {
+            "id": 11,
+            "endereco": "Av Antonio De Carvalho 1261 - Jardim Carvalho Porto Alegre - Rs 91430-001 Brasil"
+        },
+        {
+            "id": 12,
+            "endereco": "Av Antonio De Carvalho 880 - Jardim Carvalho Porto Alegre - Rs 91430-000 Brasil"
+        },
+        {
+            "id": 13,
+            "endereco": "Jardim Carvalho Antonio Carvalho - Jardim Carvalho Porto Alegre - Rs 91430-755 Brasil"
+        },
+        {
+            "id": 14,
+            "endereco": "Jardim Carvalho Antonio Carvalho - Jardim Carvalho Porto Alegre - Rs 91530-590 Brasil"
+        },
+        {
+            "id": 15,
+            "endereco": "Jardim Carvalho Antonio Carvalho - Jardim Carvalho Porto Alegre - Rs 91430-040 Brasil"
+        },
+        {
+            "id": 16,
+            "endereco": "Av Antonio De Carvalho 2667 - Agronomia Porto Alegre - Rs 91430-001 Brasil"
+        },
+        {
+            "id": 17,
+            "endereco": "Av Protasio Alves - Jardim Itu-Sabara Porto Alegre - Rs 91210-080 Brasil"
+        },
+        {
+            "id": 18,
+            "endereco": "Protasio Alves - Jardim Carvalho Porto Alegre - Rs Brasil"
+        },
+        {
+            "id": 19,
+            "endereco": "Av Protasio Alves 7585 - Petropolis Porto Alegre - Rs Brasil"
+        },
+        {
+            "id": 20,
+            "endereco": "Av Protasio Alves 7965 - Alto Petropolis Porto Alegre - Rs 91260-220 Brasil"
+        },
+        {
+            "id": 21,
+            "endereco": "Av Protasio Alves 8129 - Alto Petropolis Porto Alegre - Rs 91260-020 Brasil"
+        },
+        {
+            "id": 22,
+            "endereco": "Av Protasio Alves 8383 - Morro Santana Porto Alegre - Rs 91260-000 Brasil"
+        },
+        {
+            "id": 23,
+            "endereco": "Av Protasio Alves 8717 - Protasio Alves Porto Alegre - Rs 91260-000 Brasil"
+        },
+        {
+            "id": 24,
+            "endereco": "Avenida Manoel Elias 2260 Mario Quintana Porto Alegre - Rs 91240-260 Brasil"
+        },
+        {
+            "id": 25,
+            "endereco": "Avenida Manoel Elias 2000 Mario Quintana Porto Alegre - Rs 91240-260 Brasil"
+        },
+        {
+            "id": 26,
+            "endereco": "Av Manoel Elias 1756 - Morro Santana Porto Alegre - Rs 91240-261 Brasil"
+        },
+        {
+            "id": 27,
+            "endereco": "Avenida Manoel Elias 1316 Mario Quintana Porto Alegre - Rs 91240-260 Brasil"
+        },
+        {
+            "id": 28,
+            "endereco": "Avenida Manoel Elias 1050 Rubem Berta Porto Alegre - Rs 91240-260 Brasil"
+        },
+        {
+            "id": 29,
+            "endereco": "Manoel Elias - Rubem Berta Porto Alegre - Rs 91240-502 Brasil"
+        },
+        {
+            "id": 30,
+            "endereco": "Manoel Elias - Rubem Berta Porto Alegre - Rs 91240-001 Brasil"
+        },
+        {
+            "id": 31,
+            "endereco": "AvBaltazar De Oliveira Garcia2032 Corredor Bc - Sarandi Porto Alegre - Rs 91230-300 Brasil"
+        },
+        {
+            "id": 32,
+            "endereco": "Baltazar De Oliveira Garcia - Sarandi Porto Alegre - Rs 91130-000 Brasil"
+        },
+        {
+            "id": 33,
+            "endereco": "Av Baltazar De Oliveira Garcia972 Corredor Bc - Sarandi Porto Alegre - Rs 91130-000 Brasil"
+        },
+        {
+            "id": 34,
+            "endereco": "Av Baltazar De Oliveira Garcia318 Corredor Bc - Sarandi Porto Alegre - Rs 91130-000 Brasil"
+        },
+        {
+            "id": 35,
+            "endereco": "Av Assis Brasil 7214 - Passo D Areia Porto Alegre - Rs 91010-004 Brasil"
+        }
+    ],
+    "rotas": [
+        {
+            "origem": 0,
+            "destino": 1,
+            "distancia": 10
+        },
+        {
+            "origem": 1,
+            "destino": 2,
+            "distancia": 24
+        },
+        {
+            "origem": 2,
+            "destino": 3,
+            "distancia": 22
+        },
+        {
+            "origem": 3,
+            "destino": 4,
+            "distancia": 19
+        },
+        {
+            "origem": 4,
+            "destino": 5,
+            "distancia": 7
+        },
+        {
+            "origem": 5,
+            "destino": 6,
+            "distancia": 26
+        },
+        {
+            "origem": 6,
+            "destino": 7,
+            "distancia": 6
+        },
+        {
+            "origem": 7,
+            "destino": 8,
+            "distancia": 21
+        },
+        {
+            "origem": 8,
+            "destino": 9,
+            "distancia": 5
+        },
+        {
+            "origem": 9,
+            "destino": 10,
+            "distancia": 21
+        },
+        {
+            "origem": 10,
+            "destino": 11,
+            "distancia": 10
+        },
+        {
+            "origem": 11,
+            "destino": 12,
+            "distancia": 29
+        },
+        {
+            "origem": 12,
+            "destino": 13,
+            "distancia": 2
+        },
+        {
+            "origem": 13,
+            "destino": 14,
+            "distancia": 6
+        },
+        {
+            "origem": 14,
+            "destino": 15,
+            "distancia": 15
+        },
+        {
+            "origem": 15,
+            "destino": 16,
+            "distancia": 5
+        },
+        {
+            "origem": 16,
+            "destino": 17,
+            "distancia": 15
+        },
+        {
+            "origem": 17,
+            "destino": 18,
+            "distancia": 8
+        },
+        {
+            "origem": 18,
+            "destino": 19,
+            "distancia": 16
+        },
+        {
+            "origem": 19,
+            "destino": 20,
+            "distancia": 26
+        },
+        {
+            "origem": 20,
+            "destino": 21,
+            "distancia": 4
+        },
+        {
+            "origem": 21,
+            "destino": 22,
+            "distancia": 23
+        },
+        {
+            "origem": 22,
+            "destino": 23,
+            "distancia": 10
+        },
+        {
+            "origem": 23,
+            "destino": 24,
+            "distancia": 23
+        },
+        {
+            "origem": 24,
+            "destino": 25,
+            "distancia": 26
+        },
+        {
+            "origem": 25,
+            "destino": 26,
+            "distancia": 21
+        },
+        {
+            "origem": 26,
+            "destino": 27,
+            "distancia": 3
+        },
+        {
+            "origem": 27,
+            "destino": 28,
+            "distancia": 14
+        },
+        {
+            "origem": 28,
+            "destino": 29,
+            "distancia": 20
+        },
+        {
+            "origem": 29,
+            "destino": 30,
+            "distancia": 30
+        },
+        {
+            "origem": 30,
+            "destino": 31,
+            "distancia": 22
+        },
+        {
+            "origem": 31,
+            "destino": 32,
+            "distancia": 25
+        },
+        {
+            "origem": 32,
+            "destino": 33,
+            "distancia": 10
+        },
+        {
+            "origem": 33,
+            "destino": 34,
+            "distancia": 10
+        },
+        {
+            "origem": 34,
+            "destino": 35,
+            "distancia": 15
+        },
+        {
+            "origem": 35,
+            "destino": 34,
+            "distancia": 2
+        },
+        {
+            "origem": 34,
+            "destino": 33,
+            "distancia": 8
+        },
+        {
+            "origem": 33,
+            "destino": 32,
+            "distancia": 2
+        },
+        {
+            "origem": 32,
+            "destino": 31,
+            "distancia": 15
+        },
+        {
+            "origem": 31,
+            "destino": 30,
+            "distancia": 10
+        },
+        {
+            "origem": 30,
+            "destino": 29,
+            "distancia": 4
+        },
+        {
+            "origem": 29,
+            "destino": 28,
+            "distancia": 5
+        },
+        {
+            "origem": 28,
+            "destino": 27,
+            "distancia": 30
+        },
+        {
+            "origem": 27,
+            "destino": 26,
+            "distancia": 6
+        },
+        {
+            "origem": 26,
+            "destino": 25,
+            "distancia": 20
+        },
+        {
+            "origem": 25,
+            "destino": 24,
+            "distancia": 27
+        },
+        {
+            "origem": 24,
+            "destino": 23,
+            "distancia": 13
+        },
+        {
+            "origem": 23,
+            "destino": 22,
+            "distancia": 5
+        },
+        {
+            "origem": 22,
+            "destino": 21,
+            "distancia": 1
+        },
+        {
+            "origem": 21,
+            "destino": 20,
+            "distancia": 15
+        },
+        {
+            "origem": 20,
+            "destino": 19,
+            "distancia": 17
+        },
+        {
+            "origem": 19,
+            "destino": 18,
+            "distancia": 29
+        },
+        {
+            "origem": 18,
+            "destino": 17,
+            "distancia": 17
+        },
+        {
+            "origem": 17,
+            "destino": 16,
+            "distancia": 20
+        },
+        {
+            "origem": 16,
+            "destino": 15,
+            "distancia": 29
+        },
+        {
+            "origem": 15,
+            "destino": 14,
+            "distancia": 1
+        },
+        {
+            "origem": 14,
+            "destino": 13,
+            "distancia": 6
+        },
+        {
+            "origem": 13,
+            "destino": 12,
+            "distancia": 10
+        },
+        {
+            "origem": 12,
+            "destino": 11,
+            "distancia": 17
+        },
+        {
+            "origem": 11,
+            "destino": 10,
+            "distancia": 26
+        },
+        {
+            "origem": 10,
+            "destino": 9,
+            "distancia": 21
+        },
+        {
+            "origem": 9,
+            "destino": 8,
+            "distancia": 19
+        },
+        {
+            "origem": 8,
+            "destino": 7,
+            "distancia": 23
+        },
+        {
+            "origem": 7,
+            "destino": 6,
+            "distancia": 5
+        },
+        {
+            "origem": 6,
+            "destino": 5,
+            "distancia": 30
+        },
+        {
+            "origem": 5,
+            "destino": 4,
+            "distancia": 14
+        },
+        {
+            "origem": 4,
+            "destino": 3,
+            "distancia": 21
+        },
+        {
+            "origem": 3,
+            "destino": 2,
+            "distancia": 9
+        },
+        {
+            "origem": 2,
+            "destino": 1,
+            "distancia": 17
+        },
+        {
+            "origem": 1,
+            "destino": 0,
+            "distancia": 17
+        },
+        {
+            "origem": 35,
+            "destino": 35,
+            "distancia": 0
+        },
+        {
+            "origem": 0,
+            "destino": 0,
+            "distancia": 0
+        }
+    ]
+}
