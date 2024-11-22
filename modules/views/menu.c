@@ -1,6 +1,9 @@
 #include "./../functions.h"
 #include "./../search/dfs.c"
 #include "./../search/bfs.c"
+#include "./../search/dijkstra.c"
+#include "./../search/floyd.c"
+#include "./../search/bellmanFord.c"
 
 void menu() {
 	int opcao;
@@ -28,8 +31,8 @@ void menu() {
 			case 2:
 				largura(34, 25);
 				break;
-			// case 3:
-			// 	buscaDijkstra();
+			case 3:
+				dijkstra(34, 25);
 			// 	break;
 			// case 4:
 			// 	buscaFloyd();
@@ -47,5 +50,7 @@ void menu() {
 				printf("\n\nOpcao invalida!");
 				break;
 		}
+
+		resetarVisita();
 	} while (opcao != 0);
 }

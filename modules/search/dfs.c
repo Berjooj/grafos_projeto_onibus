@@ -8,7 +8,7 @@
 #include "../variables.c"
 
 // Busca em profundidade
-void buscaProfundidade(int origem, int destino, int *caminho, int *indiceCaminho, bool *encontrouCaminho) {
+void buscaProfundidade(int origem, int destino, int* caminho, int* indiceCaminho, bool* encontrouCaminho) {
 	grafo->lista[origem]->visitado = true;
 	caminho[*indiceCaminho] = origem;
 	(*indiceCaminho)++;
@@ -18,7 +18,7 @@ void buscaProfundidade(int origem, int destino, int *caminho, int *indiceCaminho
 		return;
 	}
 
-	Vertice *verticeAtual = grafo->lista[origem]->head;
+	Vertice* verticeAtual = grafo->lista[origem]->head;
 	while (verticeAtual) {
 		if (!grafo->lista[verticeAtual->vertex]->visitado) {
 			buscaProfundidade(verticeAtual->vertex, destino, caminho, indiceCaminho, encontrouCaminho);
@@ -27,15 +27,17 @@ void buscaProfundidade(int origem, int destino, int *caminho, int *indiceCaminho
 				return;
 			}
 		}
+
 		verticeAtual = verticeAtual->prox;
 	}
 
 	// Desfaz o caminho se não encontrar o destino
 	(*indiceCaminho)--;
+	grafo->lista[origem]->visitado = false;
 }
 
 void profundidade(int origem, int destino) {
-	int *caminho = (int *)malloc(grafo->numVertices * sizeof(int));
+	int* caminho = (int*)malloc(grafo->numVertices * sizeof(int));
 	int indiceCaminho = 0;
 	bool encontrouCaminho = false;
 
