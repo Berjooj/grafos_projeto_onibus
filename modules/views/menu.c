@@ -34,9 +34,9 @@ void menu() {
 			case 3:
 				dijkstra(34, 25);
 			// 	break;
-			// case 4:
-			// 	buscaFloyd();
-			// 	break;
+			case 4:
+				floyd_warshall(34,25);
+				break;
 			// case 5:
 			// 	buscaBellmanFord();
 			// 	break;
