@@ -45,7 +45,7 @@ void imprimirFloyd(int *caminho, int tamanhoCaminho, int origem, int destino) {
 	if (caminho == NULL || tamanhoCaminho == 0) {
 		printf("Nao existe caminho entre %d e %d.\n", grafo->lista[origem]->head->vertex, grafo->lista[destino]->head->vertex);
 	} else {
-		printf("Caminho encontrado entre %d e %d: ", grafo->lista[origem]->head->vertex, grafo->lista[destino]->head->vertex);
+		printf("Caminho encontrado entre %d e %d:\n", grafo->lista[origem]->head->vertex, grafo->lista[destino]->head->vertex);
 
 		int pesoTotal = 0;
 		for (int i = 0; i < tamanhoCaminho - 1; i++) {
@@ -60,7 +60,7 @@ void imprimirFloyd(int *caminho, int tamanhoCaminho, int origem, int destino) {
 				pesoTotal += adj->distancia;
 			}
 
-			printf("%d -> ", grafo->lista[atual]->head->vertex);
+			printf("%d ", grafo->lista[atual]->head->vertex);
 		}
 		printf("%d\n", grafo->lista[caminho[tamanhoCaminho - 1]]->head->vertex);
 
@@ -107,3 +107,7 @@ void floyd_warshall(int origem, int destino) {
 	free(next);
 	free(caminho);
 }
+
+// L: 2075 720 615 1466 457 3945 361 360 359 358 1887 1907 1119
+// D: 2075 720 615 1466 457 3945 361 362 363 364 2174 2123 2124 2125 1118 1119
+// B: 2075 720 615 1466 457 3945 361 362 363 364 1924 2126 2125 1118 1119

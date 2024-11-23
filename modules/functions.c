@@ -14,6 +14,7 @@
 Grafo *criar_grafo(int numVertices) {
 	Grafo *grafo = (Grafo *)malloc(sizeof(Grafo));
 	grafo->numVertices = numVertices;
+	grafo->numAresta = 0;
 	grafo->lista = (ListaAdj **)malloc(numVertices * sizeof(ListaAdj *));
 
 	for (int i = 0; i < numVertices; i++) {
@@ -88,6 +89,8 @@ void adicionar_aresta(Grafo *grafo, int origem, int destino, int distancia) {
 	}
 
 	if (!aresta_existe(grafo, origem, destino)) {
+		grafo->numAresta++;
+
 		Vertice *novo_vertice = (Vertice *)malloc(sizeof(Vertice));
 		novo_vertice->vertex = destino;
 		novo_vertice->distancia = distancia;

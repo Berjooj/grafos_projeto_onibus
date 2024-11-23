@@ -9,31 +9,39 @@
 
 // Busca em profundidade
 void buscaProfundidade(int origem, int destino, int* caminho, int* indiceCaminho, bool* encontrouCaminho) {
-	grafo->lista[origem]->visitado = true;
-	caminho[*indiceCaminho] = origem;
-	(*indiceCaminho)++;
+	int* pilha = (int*)malloc(grafo->numVertices * sizeof(int));
+	int topo = -1;
 
-	if (origem == destino) {
-		(*encontrouCaminho) = true;
-		return;
-	}
+	pilha[++topo] = origem;
 
-	Vertice* verticeAtual = grafo->lista[origem]->head;
-	while (verticeAtual) {
-		if (!grafo->lista[verticeAtual->vertex]->visitado) {
-			buscaProfundidade(verticeAtual->vertex, destino, caminho, indiceCaminho, encontrouCaminho);
+	while (topo >= 0) {
+		int atual = pilha[topo--];
 
-			if (grafo->lista[destino]->visitado) {
-				return;
+		if (!grafo->lista[atual]->visitado) {
+			grafo->lista[atual]->visitado = true;
+			caminho[*indiceCaminho] = atual;
+			(*indiceCaminho)++;
+
+			if (atual == destino) {
+				*encontrouCaminho = true;
+				break;
+			}
+
+			Vertice* verticeAtual = grafo->lista[atual]->head;
+			while (verticeAtual) {
+				if (!grafo->lista[verticeAtual->vertex]->visitado)
+					pilha[++topo] = verticeAtual->vertex;
+
+				verticeAtual = verticeAtual->prox;
 			}
 		}
-
-		verticeAtual = verticeAtual->prox;
 	}
 
-	// Desfaz o caminho se não encontrar o destino
-	(*indiceCaminho)--;
-	grafo->lista[origem]->visitado = false;
+	if (!(*encontrouCaminho)) {
+		(*indiceCaminho) = 0;
+	}
+
+	free(pilha);
 }
 
 void profundidade(int origem, int destino) {

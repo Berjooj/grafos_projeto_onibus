@@ -18,6 +18,7 @@ typedef struct ListaAdj {
 
 typedef struct Grafo {
 	int numVertices;
+	int numAresta;
 	struct ListaAdj** lista;
 } Grafo;
 

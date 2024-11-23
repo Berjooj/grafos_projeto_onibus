@@ -33,7 +33,7 @@ void buscaDijkstra(int origem, int destino, int** distancias, int** anteriores) 
 			}
 		}
 
-		// Sem caminho, break
+		// Sem percurso, break
 		if (indiceParadaAtual == -1) break;
 
 		grafo->lista[indiceParadaAtual]->visitado = true;
@@ -65,28 +65,27 @@ void dijkstra(int origem, int destino) {
 		free(distancias);
 		free(anteriores);
 
-		printf("Nao existe caminho entre %s e %s.\n", grafo->lista[origem]->head->endereco, grafo->lista[destino]->head->endereco);
+		printf("Nao existe percurso entre %s e %s.\n", grafo->lista[origem]->head->endereco, grafo->lista[destino]->head->endereco);
 		system("pause");
 		return;
 	}
 
-	printf("Caminho encontrado entre %d e %d: ", origem, destino);
+	printf("percurso minimo de %d e %d:\n", origem, destino);
 
-	// Reconstrói o caminho em ordem correta
+	// Reconstrói o percurso em ordem correta
 	int parada = destino;
-	int caminho[grafo->numVertices];
+	int percurso[grafo->numVertices];
 	int indice = 0;
 
 	while (parada != -1) {
-		caminho[indice++] = parada;
+		percurso[indice++] = parada;
 		parada = anteriores[parada];
 	}
 
-	// Imprime o caminho na ordem certa
 	for (int i = indice - 1; i >= 0; i--)
-		printf("%d ", caminho[i]);
+		printf("%d ", percurso[i]);
 
-	printf("\nDistancia total (caminho minimo): %d\n", distancias[destino]);
+	printf("\nDistancia total (percurso minimo): %d\n", distancias[destino]);
 
 	free(distancias);
 	free(anteriores);

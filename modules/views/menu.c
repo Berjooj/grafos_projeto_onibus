@@ -10,6 +10,8 @@ void menu() {
 
 	do {
 		opcao = -1;
+		printf("\nTotal de paradas: %d\n", grafo->numVertices);
+		printf("Total de arestas: %d\n", grafo->numAresta);
 		printf("\nMenu:\n");
 		printf("1. Busca em profundidade\n");
 		printf("2. Busca em largura\n");
@@ -23,23 +25,29 @@ void menu() {
 		scanf("%d", &opcao);
 		while (getchar() != '\n');
 
-		// 34 - Av. Baltazar De Oliveira Garcia318 - Agronomia até 25 - Avenida Manoel Elias 2000
+		/**
+		 * Legenda pra facilitar a vida:
+		 * 1009 - Av Baltazar De Oliveira Garcia318 - Agronomia // Triângulo da assis
+		 * 1119 - Avenida Manoel Elias 2000 // UniRitter FAPA
+		 * 2075 - Avenida Julio De Castilhos 647 Centro Historico // Rodoviária
+		 * 6664 - Rodoviaria De Montenegro
+		 */
 		switch (opcao) {
 			case 1:
-				profundidade(34, 25);
+				profundidade(6664, 1119);
 				break;
 			case 2:
-				largura(34, 25);
+				largura(6664, 1119);
 				break;
 			case 3:
-				dijkstra(34, 25);
-			// 	break;
-			case 4:
-				floyd_warshall(34,25);
+				dijkstra(6664, 1119);
 				break;
-			// case 5:
-			// 	buscaBellmanFord();
-			// 	break;
+			case 4:
+				floyd_warshall(6664,1119);
+				break;
+			case 5:
+				bellmanFord(6664, 1119);
+				break;
 			// case 6:
 			// 	buscaBenchmark();
 			// 	break;

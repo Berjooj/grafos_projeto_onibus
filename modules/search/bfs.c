@@ -71,7 +71,7 @@ void imprimirCaminho(int *caminho, int tamanhoCaminho, int origem, int destino) 
 	if (caminho == NULL || tamanhoCaminho == 0) {
 		printf("Nao existe caminho entre %s e %s.\n", grafo->lista[origem]->head->endereco, grafo->lista[destino]->head->endereco);
 	} else {
-		printf("Caminho encontrado entre %d e %d: ", origem, destino);
+		printf("Caminho encontrado entre %d e %d:\n", origem, destino);
 		for (int i = tamanhoCaminho - 1; i >= 0; i--) {
 			printf("%d ", caminho[i]);
 		}
