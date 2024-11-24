@@ -111,8 +111,7 @@ void adicionar_aresta(Grafo *grafo, int origem, int destino, int distancia) {
 	}
 }
 
-void init(int lerArquivo) {
-	const char *nome_arquivo = "./config/data.json";
+void init(int lerArquivo, char *nome_arquivo) {
 	const char *nome_arquivo_exportacao = "./output/resultado_grafo.json";
 
 	printf("> Carregando arquivo...\n");

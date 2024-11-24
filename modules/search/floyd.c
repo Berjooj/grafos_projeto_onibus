@@ -108,6 +108,45 @@ void floyd_warshall(int origem, int destino) {
 	free(caminho);
 }
 
+void _floyd_warshall(int origem, int destino) {
+	int **dist = (int **)malloc(grafo->numVertices * sizeof(int *));
+	int **next = (int **)malloc(grafo->numVertices * sizeof(int *));
+
+	for (int i = 0; i < grafo->numVertices; i++) {
+		dist[i] = (int *)malloc(grafo->numVertices * sizeof(int));
+		next[i] = (int *)malloc(grafo->numVertices * sizeof(int));
+		for (int j = 0; j < grafo->numVertices; j++) {
+			if (i == j) {
+				dist[i][j] = 0;
+			} else {
+				dist[i][j] = INT_MAX;
+			}
+			next[i][j] = -1;
+		}
+
+		Vertice *atual = grafo->lista[i]->head;
+		while (atual != NULL) {
+			dist[i][atual->vertex] = atual->distancia;
+			next[i][atual->vertex] = atual->vertex;
+			atual = atual->prox;
+		}
+	}
+
+	floydWarshall(dist, next);
+
+	int tamanhoCaminho = 0;
+	int *caminho = reconstruirCaminho(origem, destino, next, &tamanhoCaminho);
+
+	for (int i = 0; i < grafo->numVertices; i++) {
+		free(dist[i]);
+		free(next[i]);
+	}
+
+	free(dist);
+	free(next);
+	free(caminho);
+}
+
 // L: 2075 720 615 1466 457 3945 361 360 359 358 1887 1907 1119
 // D: 2075 720 615 1466 457 3945 361 362 363 364 2174 2123 2124 2125 1118 1119
 // B: 2075 720 615 1466 457 3945 361 362 363 364 1924 2126 2125 1118 1119

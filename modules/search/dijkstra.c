@@ -92,3 +92,13 @@ void dijkstra(int origem, int destino) {
 
 	system("pause");
 }
+
+void _dijkstra(int origem, int destino) {
+	int* distancias;
+	int* anteriores;
+
+	buscaDijkstra(origem, destino, &distancias, &anteriores);
+	resetarVisita();
+	free(distancias);
+	free(anteriores);
+}

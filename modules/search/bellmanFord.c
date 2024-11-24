@@ -120,3 +120,10 @@ void bellmanFord(int origem, int destino) {
 	free(percurso);
 	system("pause");
 }
+
+void _bellmanFord(int origem, int destino) {
+	int tamanhoPercurso, distanciaFinal;
+	int* percurso = buscaBellmanFord(origem, destino, &tamanhoPercurso, &distanciaFinal);
+	free(percurso);
+	resetarVisita();
+}

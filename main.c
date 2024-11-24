@@ -9,7 +9,12 @@ int main() {
 
 	limparTela();
 
-	init(1);
+	char nomeArquivo[100];
+
+	sprintf(nomeArquivo, "./config/bkp_t10_b55_b56_linha_desconexa.json");
+	// sprintf(nomeArquivo, "./config/data.json");
+
+	init(1, nomeArquivo);
 
 	menu();
 

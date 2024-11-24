@@ -1,9 +1,10 @@
 #include "./../functions.h"
-#include "./../search/dfs.c"
+#include "./../search/bellmanFord.c"
 #include "./../search/bfs.c"
+#include "./../search/buscaBenchmark.c"
+#include "./../search/dfs.c"
 #include "./../search/dijkstra.c"
 #include "./../search/floyd.c"
-#include "./../search/bellmanFord.c"
 
 void menu() {
 	int opcao;
@@ -26,31 +27,48 @@ void menu() {
 		while (getchar() != '\n');
 
 		/**
+		 * > Arquivo completo
 		 * Legenda pra facilitar a vida:
 		 * 1009 - Av Baltazar De Oliveira Garcia318 - Agronomia // Triângulo da assis
 		 * 1119 - Avenida Manoel Elias 2000 // UniRitter FAPA
 		 * 2075 - Avenida Julio De Castilhos 647 Centro Historico // Rodoviária
 		 * 6664 - Rodoviaria De Montenegro
 		 */
+		// int origem = 6664, destino = 1119;
+
+		/**
+		 * > Arquivo resumido
+		 * Legenda pra facilitar a vida:
+		 * 22 - Av Baltazar De Oliveira Garcia318 - Agronomia // Triângulo da assis
+		 * 7 - Avenida Manoel Elias 2000 // UniRitter FAPA
+		 */
+		int origem = 22, destino = 7;
+
+		printf("Digite o indice da origem: ");
+		scanf("%d", &origem);
+
+		printf("Digite o indice do destino: ");
+		scanf("%d", &destino);
+
 		switch (opcao) {
 			case 1:
-				profundidade(6664, 1119);
+				profundidade(origem, destino);
 				break;
 			case 2:
-				largura(6664, 1119);
+				largura(origem, destino);
 				break;
 			case 3:
-				dijkstra(6664, 1119);
+				dijkstra(origem, destino);
 				break;
 			case 4:
-				floyd_warshall(6664,1119);
+				floyd_warshall(origem, destino);
 				break;
 			case 5:
-				bellmanFord(6664, 1119);
+				bellmanFord(origem, destino);
 				break;
-			// case 6:
-			// 	buscaBenchmark();
-			// 	break;
+			case 6:
+				buscaBenchmark(origem, destino);
+				break;
 			case 0:
 				printf("Saindo...\n");
 				break;

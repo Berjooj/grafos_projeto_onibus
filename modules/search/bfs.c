@@ -86,3 +86,10 @@ void largura(int origem, int destino) {
 	imprimirCaminho(caminho, tamanhoCaminho, origem, destino);
 	free(caminho);
 }
+
+void _largura(int origem, int destino) {
+	int tamanhoCaminho = 0;
+	int *caminho = buscaLargura(origem, destino, &tamanhoCaminho);
+	free(caminho);
+	resetarVisita();
+}
