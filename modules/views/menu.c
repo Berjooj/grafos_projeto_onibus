@@ -10,6 +10,7 @@ void menu() {
 	int opcao;
 
 	do {
+		limparTela();
 		opcao = -1;
 		printf("\nTotal de paradas: %d\n", grafo->numVertices);
 		printf("Total de arestas: %d\n", grafo->numAresta);
@@ -25,6 +26,16 @@ void menu() {
 
 		scanf("%d", &opcao);
 		while (getchar() != '\n');
+
+		if (opcao == 0) {
+			break;
+		}
+
+		if (opcao < 1 || opcao > 6) {
+			printf("\n\nOpcao invalida!\n\n");
+			system("pause");
+			continue;
+		}
 
 		/**
 		 * > Arquivo completo
@@ -68,12 +79,6 @@ void menu() {
 				break;
 			case 6:
 				buscaBenchmark(origem, destino);
-				break;
-			case 0:
-				printf("Saindo...\n");
-				break;
-			default:
-				printf("\n\nOpcao invalida!");
 				break;
 		}
 
