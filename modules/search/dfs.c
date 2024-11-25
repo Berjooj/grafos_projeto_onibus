@@ -7,8 +7,11 @@
 #include "../types.h"
 #include "../variables.c"
 
+int contadorVerticesVisitados;
+
 // Busca em profundidade
 void buscaProfundidade(int origem, int destino, int* percurso, int* indicePercurso, bool* encontrouPercurso) {
+	contadorVerticesVisitados = 0;
 	int* pilha = (int*)malloc(grafo->numVertices * sizeof(int));
 	int topo = -1;
 
@@ -19,6 +22,8 @@ void buscaProfundidade(int origem, int destino, int* percurso, int* indicePercur
 
 		if (!grafo->lista[atual]->visitado) {
 			grafo->lista[atual]->visitado = true;
+			contadorVerticesVisitados++;
+			// printf("%d, ",grafo->lista[atual]->head->vertex);
 			percurso[*indicePercurso] = atual;
 			(*indicePercurso)++;
 
@@ -65,6 +70,7 @@ void profundidade(int origem, int destino) {
 
 	free(percurso);
 	printf("\n");
+	printf("Total de vertices visitados: %d\n", contadorVerticesVisitados); // Exibe o contador
 	system("pause");
 }
 

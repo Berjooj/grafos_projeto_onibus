@@ -8,6 +8,8 @@
 #include "../types.h"
 #include "../variables.c"
 
+int contadorVerticesVisitados;
+
 void buscaDijkstra(int origem, int destino, int** distancias, int** anteriores) {
 	int indiceParadaAtual;
 
@@ -20,6 +22,7 @@ void buscaDijkstra(int origem, int destino, int** distancias, int** anteriores) 
 	}
 
 	(*distancias)[origem] = 0;
+	contadorVerticesVisitados = 0;
 
 	while (!grafo->lista[destino]->visitado) {
 		indiceParadaAtual = -1;
@@ -37,6 +40,8 @@ void buscaDijkstra(int origem, int destino, int** distancias, int** anteriores) 
 		if (indiceParadaAtual == -1) break;
 
 		grafo->lista[indiceParadaAtual]->visitado = true;
+		// printf("%d, ",indiceParadaAtual );
+		contadorVerticesVisitados++;
 
 		// Se chegou no destino, break
 		if (indiceParadaAtual == destino) break;
@@ -86,6 +91,7 @@ void dijkstra(int origem, int destino) {
 		printf("%d ", percurso[i]);
 
 	printf("\nDistancia total (percurso minimo): %d\n", distancias[destino]);
+	printf("Total de vertices visitados: %d\n", contadorVerticesVisitados);
 
 	free(distancias);
 	free(anteriores);

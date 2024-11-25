@@ -7,10 +7,13 @@
 #include "../types.h"
 #include "../variables.c"
 
+int contadorVerticesVisitados;
+
 void resetarVisitados() {
 	for (int i = 0; i < grafo->numVertices; i++) {
 		grafo->lista[i]->visitado = false;
 	}
+	contadorVerticesVisitados = 0;
 }
 
 int *buscaLargura(int origem, int destino, int *tamanhoCaminho) {
@@ -25,6 +28,7 @@ int *buscaLargura(int origem, int destino, int *tamanhoCaminho) {
 
 	resetarVisitados(grafo);
 	grafo->lista[origem]->visitado = true;
+	contadorVerticesVisitados++;
 	fila[tras++] = origem;
 
 	while (frente < tras) {
@@ -39,6 +43,8 @@ int *buscaLargura(int origem, int destino, int *tamanhoCaminho) {
 			int v = verticeAtual->vertex;
 			if (!grafo->lista[v]->visitado) {
 				grafo->lista[v]->visitado = true;
+				contadorVerticesVisitados++;
+				// printf("%d, ", v);
 				fila[tras++] = v;
 				pai[v] = atual;
 			}
@@ -77,6 +83,7 @@ void imprimirCaminho(int *caminho, int tamanhoCaminho, int origem, int destino) 
 		}
 		printf("\n");
 	}
+	printf("Total de vertices visitados: %d\n", contadorVerticesVisitados);
 	system("pause");
 }
 

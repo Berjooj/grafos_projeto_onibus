@@ -3,6 +3,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+int contadorVerticesVisitados;
+
 bool relaxaAresta(int u, int v, int peso, int* dist, int* pred) {
 	if (dist[u] != INT_MAX && dist[u] + peso < dist[v]) {
 		dist[v] = dist[u] + peso;
@@ -33,6 +35,7 @@ int* buscaBellmanFord(int origem, int destino, int* tamanhoPercurso, int* distan
 	int* pred = malloc(grafo->numVertices * sizeof(int));
 	bool* emCiclo = calloc(grafo->numVertices, sizeof(bool));
 	bool encontrouCicloNegativo = false;
+	contadorVerticesVisitados = 0;
 
 	// Inicializa distâncias e predecessores
 	for (int i = 0; i < grafo->numVertices; i++) {
@@ -46,10 +49,12 @@ int* buscaBellmanFord(int origem, int destino, int* tamanhoPercurso, int* distan
 		for (int u = 0; u < grafo->numVertices; u++) {
 			if (emCiclo[u]) continue;
 			Vertice* atual = grafo->lista[u]->head;
+			contadorVerticesVisitados++;
 			while (atual) {
-				if (!emCiclo[atual->vertex])
+				if (!emCiclo[atual->vertex]){
 					relaxaAresta(u, atual->vertex, atual->distancia, dist, pred);
-
+					contadorVerticesVisitados++;
+				}
 				atual = atual->prox;
 			}
 		}
@@ -116,6 +121,7 @@ void bellmanFord(int origem, int destino) {
 		printf("%d ", percurso[i]);
 
 	printf("\nDistancia total (caminho minimo): %d\n", distanciaFinal);
+	printf("Total de vertices visitados: %d\n", contadorVerticesVisitados); // Exibe o contador
 
 	free(percurso);
 	system("pause");
