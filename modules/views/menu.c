@@ -1,6 +1,7 @@
 #include "./../functions.h"
 #include "./../search/bellmanFord.c"
 #include "./../search/bfs.c"
+#include "./../search/bfsModificada.c"
 #include "./../search/buscaBenchmark.c"
 #include "./../search/dfs.c"
 #include "./../search/dijkstra.c"
@@ -20,7 +21,8 @@ void menu() {
 		printf("3. Dijkstra\n");
 		printf("4. Floyd\n");
 		printf("5. Bellman-Ford\n");
-		printf("6. Benchmark\n");
+		printf("6. Busca em largura (Todos Caminhos)\n");
+		printf("7. Benchmark\n");
 		printf("0. Sair\n");
 		printf("Escolha uma opcao: ");
 
@@ -31,7 +33,7 @@ void menu() {
 			break;
 		}
 
-		if (opcao < 1 || opcao > 6) {
+		if (opcao < 1 || opcao > 7) {
 			printf("\n\nOpcao invalida!\n\n");
 			system("pause");
 			continue;
@@ -78,6 +80,9 @@ void menu() {
 				bellmanFord(origem, destino);
 				break;
 			case 6:
+				larguraTodosCaminhos(origem, destino);
+				break;
+			case 7:
 				buscaBenchmark(origem, destino);
 				break;
 		}
