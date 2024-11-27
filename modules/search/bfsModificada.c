@@ -88,6 +88,7 @@ void exportarCaminhosParaArquivo(int **todosCaminhos, int numCaminhos, int orige
             }
         }
         fprintf(arquivo, "\n");
+        fprintf(arquivo, "Quantidade de vertices visitados: %d\n", contadorVerticesVisitados);
     }
     fclose(arquivo);
 
@@ -97,6 +98,7 @@ void exportarCaminhosParaArquivo(int **todosCaminhos, int numCaminhos, int orige
 
 void encontrarCaminhosBFS(int atual, int destino, int *caminhoAtual, int tamanhoAtual, int ***todosCaminhos, int **tamanhosCaminhos, int *numCaminhos) {
     grafo->lista[atual]->visitado = true;
+    contadorVerticesVisitados++;
     caminhoAtual[tamanhoAtual++] = atual;
 
     if (atual == destino) {
@@ -123,9 +125,8 @@ void encontrarCaminhosBFS(int atual, int destino, int *caminhoAtual, int tamanho
 }
 
 int **encontrarTodosCaminhos(int origem, int destino, int *numCaminhos, int **tamanhosCaminhos) {
-    resetarVisitados();
-
-    int *caminhoAtual = (int *)malloc(grafo->numVertices * sizeof(int));
+    resetarVisitadosModif();
+    int *caminhoAtual = malloc(grafo->numVertices * sizeof(int));
     int **todosCaminhos = NULL;
     *tamanhosCaminhos = NULL;
     *numCaminhos = 0;
@@ -151,12 +152,35 @@ void larguraTodosCaminhos(int origem, int destino) {
         }
     }
 
+    // Exporta os caminhos para o arquivo
     exportarCaminhosParaArquivo(todosCaminhos, numCaminhos, origem, destino, tamanhosCaminhos, tamanhoOtimo, caminhoOtimo);
 
-    // Libera memória
+    // Libera a memória
+    for (int i = 0; i < numCaminhos; i++) free(todosCaminhos[i]);
+    free(todosCaminhos);
+    free(tamanhosCaminhos);
+}
+
+void _larguraTodosCaminhos(int origem, int destino) {
+    int numCaminhos = 0, *tamanhosCaminhos = NULL;
+
+    // Calcula todos os caminhos
+    int **todosCaminhos = encontrarTodosCaminhos(origem, destino, &numCaminhos, &tamanhosCaminhos);
+
+    // Encontra o caminho ótimo
+    int *caminhoOtimo = NULL, tamanhoOtimo = -1;
     for (int i = 0; i < numCaminhos; i++) {
-        free(todosCaminhos[i]);
+        if (tamanhoOtimo == -1 || tamanhosCaminhos[i] < tamanhoOtimo) {
+            tamanhoOtimo = tamanhosCaminhos[i];
+            caminhoOtimo = todosCaminhos[i];
+        }
     }
+
+    // Exporta os caminhos para o arquivo
+    // exportarCaminhosParaArquivo(todosCaminhos, numCaminhos, origem, destino, tamanhosCaminhos, tamanhoOtimo, caminhoOtimo);
+
+    // Libera a memória
+    for (int i = 0; i < numCaminhos; i++) free(todosCaminhos[i]);
     free(todosCaminhos);
     free(tamanhosCaminhos);
 }

@@ -127,6 +127,7 @@ void buscaBenchmark(int origem, int destino) {
 
 	executar(_profundidade, "profundidade", horario, origem, destino, tamanho);
 	executar(_largura, "largura", horario, origem, destino, tamanho);
+	executar(_larguraTodosCaminhos, "larguraModif", horario, origem, destino, tamanho);
 	executar(_dijkstra, "dijkstra", horario, origem, destino, tamanho);
 	executar(_bellmanFord, "bellmanFord", horario, origem, destino, tamanho);
 	executar(_floyd_warshall, "floyd_warshall", horario, origem, destino, tamanho);
