@@ -1,9 +1,10 @@
+#include <direct.h>
+#include <dirent.h>
+#include <inttypes.h>
 #include <stdbool.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include <direct.h>
-#include <dirent.h>
 #include <sys/stat.h>
 #include <time.h>
 #include <windows.h>
@@ -12,37 +13,37 @@
 #include "../types.h"
 #include "../variables.c"
 
-int contadorVerticesVisitados;
+uint64_t contadorVerticesVisitadosBfsCompleto = 0;
 
 void resetarVisitadosModif() {
 	for (int i = 0; i < grafo->numVertices; i++) {
 		grafo->lista[i]->visitado = false;
 	}
-	contadorVerticesVisitados = 0;
+	contadorVerticesVisitadosBfsCompleto = 0;
 }
 
 void criarDiretorios(const char *caminho) {
-    DIR *dir = opendir(caminho);
-    if (!dir) {
-        _mkdir(caminho);
-    } else {
-        closedir(dir);
-    }
+	DIR *dir = opendir(caminho);
+	if (!dir) {
+		_mkdir(caminho);
+	} else {
+		closedir(dir);
+	}
 }
 
 void gerarCaminhoResult(char *caminho, char *horario, const char *nomeFuncao) {
-    strcpy(caminho, "result");
-    criarDiretorios(caminho);
+	strcpy(caminho, "result");
+	criarDiretorios(caminho);
 
-    sprintf(caminho, "%s\\%s", caminho, horario);
-    criarDiretorios(caminho);
+	sprintf(caminho, "%s\\%s", caminho, horario);
+	criarDiretorios(caminho);
 
-    sprintf(caminho, "%s\\%s", caminho, nomeFuncao);
-    criarDiretorios(caminho);
+	sprintf(caminho, "%s\\%s", caminho, nomeFuncao);
+	criarDiretorios(caminho);
 }
 
 void exportarCaminhosParaArquivo(int **todosCaminhos, int numCaminhos, int origem, int destino, int *tamanhosCaminhos, int tamanhoOtimo, int *caminhoOtimo) {
-    SYSTEMTIME st;
+	SYSTEMTIME st;
 	GetLocalTime(&st);
 	char horario[400];
 	sprintf(horario, "%02d%02d%04d%02d%02d%02d",
@@ -101,27 +102,27 @@ void encontrarCaminhosBFS(int atual, int destino, int *caminhoAtual, int tamanho
     contadorVerticesVisitados++;
     caminhoAtual[tamanhoAtual++] = atual;
 
-    if (atual == destino) {
-        *todosCaminhos = (int **)realloc(*todosCaminhos, (*numCaminhos + 1) * sizeof(int *));
-        *tamanhosCaminhos = (int *)realloc(*tamanhosCaminhos, (*numCaminhos + 1) * sizeof(int));
+	if (atual == destino) {
+		*todosCaminhos = (int **)realloc(*todosCaminhos, (*numCaminhos + 1) * sizeof(int *));
+		*tamanhosCaminhos = (int *)realloc(*tamanhosCaminhos, (*numCaminhos + 1) * sizeof(int));
 
-        (*todosCaminhos)[*numCaminhos] = (int *)malloc(tamanhoAtual * sizeof(int));
-        memcpy((*todosCaminhos)[*numCaminhos], caminhoAtual, tamanhoAtual * sizeof(int));
+		(*todosCaminhos)[*numCaminhos] = (int *)malloc(tamanhoAtual * sizeof(int));
+		memcpy((*todosCaminhos)[*numCaminhos], caminhoAtual, tamanhoAtual * sizeof(int));
 
-        (*tamanhosCaminhos)[*numCaminhos] = tamanhoAtual;
-        (*numCaminhos)++;
-    } else {
-        Vertice *verticeAtual = grafo->lista[atual]->head;
-        while (verticeAtual) {
-            int v = verticeAtual->vertex;
-            if (!grafo->lista[v]->visitado) {
-                encontrarCaminhosBFS(v, destino, caminhoAtual, tamanhoAtual, todosCaminhos, tamanhosCaminhos, numCaminhos);
-            }
-            verticeAtual = verticeAtual->prox;
-        }
-    }
+		(*tamanhosCaminhos)[*numCaminhos] = tamanhoAtual;
+		(*numCaminhos)++;
+	} else {
+		Vertice *verticeAtual = grafo->lista[atual]->head;
+		while (verticeAtual) {
+			int v = verticeAtual->vertex;
+			if (!grafo->lista[v]->visitado) {
+				encontrarCaminhosBFS(v, destino, caminhoAtual, tamanhoAtual, todosCaminhos, tamanhosCaminhos, numCaminhos);
+			}
+			verticeAtual = verticeAtual->prox;
+		}
+	}
 
-    grafo->lista[atual]->visitado = false;
+	grafo->lista[atual]->visitado = false;
 }
 
 int **encontrarTodosCaminhos(int origem, int destino, int *numCaminhos, int **tamanhosCaminhos) {
@@ -131,26 +132,26 @@ int **encontrarTodosCaminhos(int origem, int destino, int *numCaminhos, int **ta
     *tamanhosCaminhos = NULL;
     *numCaminhos = 0;
 
-    encontrarCaminhosBFS(origem, destino, caminhoAtual, 0, &todosCaminhos, tamanhosCaminhos, numCaminhos);
+	encontrarCaminhosBFS(origem, destino, caminhoAtual, 0, &todosCaminhos, tamanhosCaminhos, numCaminhos);
 
-    free(caminhoAtual);
-    return todosCaminhos;
+	free(caminhoAtual);
+	return todosCaminhos;
 }
 
 void larguraTodosCaminhos(int origem, int destino) {
-    int numCaminhos = 0;
-    int *tamanhosCaminhos = NULL;
-    int **todosCaminhos = encontrarTodosCaminhos(origem, destino, &numCaminhos, &tamanhosCaminhos);
+	int numCaminhos = 0;
+	int *tamanhosCaminhos = NULL;
+	int **todosCaminhos = encontrarTodosCaminhos(origem, destino, &numCaminhos, &tamanhosCaminhos);
 
-    // Encontrar o caminho ótimo (menor número de arestas)
-    int *caminhoOtimo = NULL;
-    int tamanhoOtimo = -1;
-    for (int i = 0; i < numCaminhos; i++) {
-        if (tamanhoOtimo == -1 || tamanhosCaminhos[i] < tamanhoOtimo) {
-            tamanhoOtimo = tamanhosCaminhos[i];
-            caminhoOtimo = todosCaminhos[i];
-        }
-    }
+	// Encontrar o caminho ótimo (menor número de arestas)
+	int *caminhoOtimo = NULL;
+	int tamanhoOtimo = -1;
+	for (int i = 0; i < numCaminhos; i++) {
+		if (tamanhoOtimo == -1 || tamanhosCaminhos[i] < tamanhoOtimo) {
+			tamanhoOtimo = tamanhosCaminhos[i];
+			caminhoOtimo = todosCaminhos[i];
+		}
+	}
 
     // Exporta os caminhos para o arquivo
     exportarCaminhosParaArquivo(todosCaminhos, numCaminhos, origem, destino, tamanhosCaminhos, tamanhoOtimo, caminhoOtimo);

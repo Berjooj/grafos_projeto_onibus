@@ -16,6 +16,7 @@
 		"calculatorcontroller.h": "c",
 		"stat.h": "c",
 		"time.h": "c",
-		"buscas.h": "c"
+		"buscas.h": "c",
+		"limits.h": "c"
 	}
 }

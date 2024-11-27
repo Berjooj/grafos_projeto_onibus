@@ -5,14 +5,19 @@
 #include "./modules/views/menu.c"
 
 int main() {
-	// system("pause");
-
 	limparTela();
 
 	char nomeArquivo[100];
 
-	sprintf(nomeArquivo, "./config/bkp_t10_b55_b56_linha_desconexa.json");
-	// sprintf(nomeArquivo, "./config/data.json");
+	printf("Realizar o carregamento completo (1 - sim; 0 - nao) ? ");
+	int tipoCarregamento = 0;
+
+	scanf("%d", &tipoCarregamento);
+
+	if (tipoCarregamento == 1)
+		sprintf(nomeArquivo, "./config/data_completa.json");
+	else
+		sprintf(nomeArquivo, "./config/data.json");
 
 	init(1, nomeArquivo);
 

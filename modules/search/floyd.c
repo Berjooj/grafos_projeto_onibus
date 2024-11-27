@@ -7,14 +7,16 @@
 #include "../types.h"
 #include "../variables.c"
 
-int contadorVerticesVisitados;
+#include <inttypes.h>
+
+uint64_t contadorVerticesVisitadosFloyd = 0;
 
 void floydWarshall(int **dist, int **next) {
-	contadorVerticesVisitados = 0;
+	contadorVerticesVisitadosFloyd = 0;
 	for (int k = 0; k < grafo->numVertices; k++) {
 		for (int i = 0; i < grafo->numVertices; i++) {
 			for (int j = 0; j < grafo->numVertices; j++) {
-				contadorVerticesVisitados++;
+				contadorVerticesVisitadosFloyd++;
 				if (dist[i][k] != INT_MAX && dist[k][j] != INT_MAX &&
 					dist[i][k] + dist[k][j] < dist[i][j]) {
 					dist[i][j] = dist[i][k] + dist[k][j];
@@ -26,7 +28,6 @@ void floydWarshall(int **dist, int **next) {
 }
 
 int *reconstruirCaminho(int origem, int destino, int **next, int *tamanhoCaminho) {
-
 	if (next[origem][destino] == -1) {
 		*tamanhoCaminho = 0;
 		return NULL;
@@ -71,7 +72,7 @@ void imprimirFloyd(int *caminho, int tamanhoCaminho, int origem, int destino) {
 
 		printf("Peso total do caminho: %d\n", pesoTotal);
 	}
-	printf("Total de vertices visitados: %d\n", contadorVerticesVisitados); // Exibe contador
+	printf("Total de vertices visitados: %"PRIu64"\n", contadorVerticesVisitadosFloyd);	 // Exibe contador
 	system("pause");
 }
 
